@@ -74,7 +74,9 @@
 		<script type="text/javascript" src="scripts/ZonaUrbana.js"></script>
 		<script type="text/javascript" src="scripts/LimiteUrbano.js"></script>
         <script type="text/javascript" src="scripts/DistritosDepartamentales.js"></script>
-		<script type="text/javascript" src="scripts/ParcelasZonificadas1.js"></script>
+		<script type="text/javascript" src="scripts/ParcelasZonificadas1.min.js"></script>
+		<script type="text/javascript" src="scripts/ParcelasZonificadas2.min.js"></script>
+		<script type="text/javascript" src="scripts/ParcelasZonificadas3.min.js"></script>
 	</head>
 	<body> 
 		<h1 style="position: relative; margin-top: 10px; margin-left: 100px; z-index: 2">Observatorio Territorial de Godoy Cruz</h1>
@@ -122,39 +124,43 @@
 			}
 			
 			function estiloZonificacion() {
-				parce.eachLayer(function(featureInstanceLayer) {
-					var id_feature = featureInstanceLayer.feature.properties['ZONIFIC'];
-					if (id_feature == 'Comercial') {
-						color_actual = 'grey';
-					} else if (id_feature == 'Residencial Mixta') {
-						color_actual = '#FF0000';
-					} else if (id_feature == 'Residencial Mixta 1') {
-						color_actual = '#ff7f00';
-					} else if (id_feature == 'Comercial Mixta') {
-						color_actual = '#fff600';
-					} else if (id_feature == 'Industrial 1') {
-						color_actual = '#800080';
-					} else if (id_feature == 'Industrial 2') {
-						color_actual = '#5d3064';
-					}else if (id_feature == 'Extension Industrial') {
-						color_actual = '#1feeb4';
-					}else if (id_feature == 'Residencial r6') {
-						color_actual = '#199f2d';
-					}else if (id_feature == 'Residencial r1-r2-r3-r4-r5') {
-						color_actual = '#74d1af';
-					}else if (id_feature == 'Centro Civico') {
-						color_actual = '#2f6e9e';
-					}else if (id_feature == 'Cultural') {
-						color_actual = '#b31417';
-					}else if (id_feature == 'Parque Recreacion') {
-						color_actual = '#E1E1E1';
-					}else if (id_feature == 'Ejes Residenciales Especiales') {
-						color_actual = 'blue';
-					}else if (id_feature == 'Cementerio') {
-						color_actual = 'orange';
-					}
-					featureInstanceLayer.setStyle({
-						color: color_actual,fillOpacity: 0.35
+				const capasparce = [parce1, parce2, parce3];
+				
+				capasparce.forEach(function (capaactual) {
+					capaactual.eachLayer(function(featureInstanceLayer) {
+						var id_feature = featureInstanceLayer.feature.properties['ZONIFIC'];
+						if (id_feature == 'Comercial') {
+							color_actual = 'grey';
+						} else if (id_feature == 'Residencial Mixta') {
+							color_actual = '#FF0000';
+						} else if (id_feature == 'Residencial Mixta 1') {
+							color_actual = '#ff7f00';
+						} else if (id_feature == 'Comercial Mixta') {
+							color_actual = '#fff600';
+						} else if (id_feature == 'Industrial 1') {
+							color_actual = '#800080';
+						} else if (id_feature == 'Industrial 2') {
+							color_actual = '#5d3064';
+						}else if (id_feature == 'Extension Industrial') {
+							color_actual = '#1feeb4';
+						}else if (id_feature == 'Residencial r6') {
+							color_actual = '#199f2d';
+						}else if (id_feature == 'Residencial r1-r2-r3-r4-r5') {
+							color_actual = '#74d1af';
+						}else if (id_feature == 'Centro Civico') {
+							color_actual = '#2f6e9e';
+						}else if (id_feature == 'Cultural') {
+							color_actual = '#b31417';
+						}else if (id_feature == 'Parque Recreacion') {
+							color_actual = '#E1E1E1';
+						}else if (id_feature == 'Ejes Residenciales Especiales') {
+							color_actual = 'blue';
+						}else if (id_feature == 'Cementerio') {
+							color_actual = 'orange';
+						}
+						featureInstanceLayer.setStyle({
+							color: color_actual,fillOpacity: 0.35
+						});
 					});
 				});
 			}	
@@ -172,7 +178,10 @@
 			/* OVERLAYS Y GRUPOS */
 			var plazagc = L.marker([-32.92524, -68.84439]).bindPopup('Plaza GC.').openPopup(),
 				godoycruz = L.geoJson(godoycruz),
-				parce= L.geoJson(ParcelasZonificadas1, { onEachFeature: agregarPopupparcelas});
+				parce1= L.geoJson(ParcelasZonificadas1, { onEachFeature: agregarPopupparcelas}),
+				parce2= L.geoJson(ParcelasZonificadas2, { onEachFeature: agregarPopupparcelas}),
+				parce3= L.geoJson(ParcelasZonificadas3, { onEachFeature: agregarPopupparcelas}),
+				parcegrupo= L.layerGroup([parce1, parce2, parce3]);
 				
 				
 
@@ -205,7 +214,7 @@
 				
 				
 				"Infraestructura Urbana":{
-				"Parcelas Zonificadas":parce,
+				"Parcelas Zonificadas":parcegrupo,
 				
 				
 				},
