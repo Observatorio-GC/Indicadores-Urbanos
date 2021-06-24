@@ -12,7 +12,7 @@
 		<link rel="stylesheet" href="css/leaflet.groupedlayercontrol.min.css">
 		<style type="text/css">	
 			.leaflet-control-attribution.leaflet-control a:hover {color:#800080}
-			.logogc{position:absolute;z-index:2;top:5px;right:350px}
+			.logogc{position:absolute;z-index:2;top:9px;right:100px}
 			h1 { color: #800080;}
 			.leaflet-control-attribution.leaflet-control { font-size: 16px;	}
 			
@@ -34,24 +34,21 @@
 			
 		    #referencias {
 				position: absolute;
-				width: 150px;
-				height: 50%;
-				top: 40%;
-				left: 20px;
+				top: 650px;
+				left: 12px;
 				z-index: 400;
 		    }
 
 		    .icono_referencia {
-				display: none;
-				font: 18px/1.5 Gotham;
+				font: 12px/1.5 Gotham;
 				color: #222222;
 				margin-bottom: 15px;
 				text-align: left;
-				background-color: rgba(255, 255, 255, 0.4);
-				border-color: #444444;
-				border-width: 3px;
+				background-color: rgba(255, 255, 255, 0.6);
+				border-color: #B90E0A;
+				border-width: 2px;
 				border-style: solid;
-				padding: 10px;
+				padding: 5px;
 		    }
 		
 		</style>
@@ -70,12 +67,6 @@
 		<script type="text/javascript" src="scripts/godoycruz.js"></script>
 		
 		
-		<script type="text/javascript" src="scripts/ZonaNatural.js"></script>
-		<script type="text/javascript" src="scripts/ZonaUrbana.js"></script>
-		<script type="text/javascript" src="scripts/LimiteUrbano.js"></script>
-        <script type="text/javascript" src="scripts/DistritosDepartamentales.js"></script>
-		<script type="text/javascript" src="scripts/ParcelasZonificadas_1.js"></script>
-		<script type="text/javascript" src="scripts/ParcelasZonificadas_2.js"></script>
 		<script type="text/javascript" src="scripts/Cementerio.js"></script>
 		<script type="text/javascript" src="scripts/Centro_civico.js"></script>
 		<script type="text/javascript" src="scripts/ComercialMixta.js"></script>
@@ -93,13 +84,12 @@
 		
 	</head>
 	<body> 
+		<div style="position: absolute; margin-bottom: 20px; margin-left: 50px; z-index: 2"> </div>
 		<h1 style="position: relative; margin-top: 10px; margin-left: 100px; z-index: 2">Observatorio Territorial de Godoy Cruz - Indicadores Urbanos </h1>
 		<img src="favicon.png" height= "45px" width="45px" align=right class="logogc">
 		<div id="map" class="map map-home" style="margin:8px 0 8px 0;height:680px;"></div> 
 		<div id="referencias">
-			<div class="icono_referencia" id="ref_cicloviasproy">Total de km:</br>29,35</div>
-			<div class="icono_referencia" id="ref_cicloviasexist">Total de km:</br>21,48</div>
-			
+			<div class="icono_referencia">Los datos son orientativos, dependen  de verificación en planificación urbana</div>
 		</div>
 	
 
@@ -137,47 +127,6 @@
 				} 
 			}
 			
-			function estiloZonificacion() {
-				const capasparce = [parce1, parce2];
-				
-				capasparce.forEach(function (capaactual) {
-					capaactual.eachLayer(function(featureInstanceLayer) {
-						var id_feature = featureInstanceLayer.feature.properties['ZONIFIC'];
-						if (id_feature == 'Comercial') {
-							color_actual = 'grey';
-						} else if (id_feature == 'Residencial Mixta') {
-							color_actual = '#FF0000';
-						} else if (id_feature == 'Residencial Mixta 1') {
-							color_actual = '#ff7f00';
-						} else if (id_feature == 'ComercialMixta') {
-							color_actual = '#fff600';
-						} else if (id_feature == 'Industrial1') {
-							color_actual = '#800080';
-						} else if (id_feature == 'Industrial2') {
-							color_actual = '#5d3064';
-						}else if (id_feature == 'Extension Industrial') {
-							color_actual = '#1feeb4';
-						}else if (id_feature == 'Residencial r6') {
-							color_actual = '#199f2d';
-						}else if (id_feature == 'Residencialr1-r2-r3-r4-r5') {
-							color_actual = '#74d1af';
-						}else if (id_feature == 'CentroCivico') {
-							color_actual = '#2f6e9e';
-						}else if (id_feature == "Cultural") {
-							color_actual = '#b31417';
-						}else if (id_feature == 'ParqueRecreacion') {
-							color_actual = '#E1E1E1';
-						}else if (id_feature == 'Ejes Residenciales Especiales') {
-							color_actual = 'blue';
-						}else if (id_feature == "Cementerio") {
-							color_actual = 'orange';
-						}
-						featureInstanceLayer.setStyle({
-							color: color_actual,fillOpacity: 0.35
-						});
-					});
-				});
-			}	
 			
 			
 			/* BASE LAYERS */
@@ -192,8 +141,6 @@
 			/* OVERLAYS Y GRUPOS */
 			var plazagc = L.marker([-32.92524, -68.84439]).bindPopup('Plaza GC.').openPopup(),
 				godoycruz = L.geoJson(godoycruz),
-				parce1= L.geoJson(ParcelasZonificadas_1,{ onEachFeature: agregarPopupparcelas}),
-				parce2= L.geoJson(ParcelasZonificadas_2,{ onEachFeature: agregarPopupparcelas}),
 				zona1 = L.geoJson(Cementerio,{ onEachFeature: agregarPopupparcelas}).setStyle({color:"#C35918"}),
 				zona2 = L.geoJson(Centro_civico,{ onEachFeature: agregarPopupparcelas}).setStyle({color:'#2f6e9e'}),
 				zona3 = L.geoJson(ComercialMixta,{ onEachFeature: agregarPopupparcelas}).setStyle({color:'#fff600'}),
@@ -207,9 +154,7 @@
 				zona11= L.geoJson(ResidencialMixta,{ onEachFeature: agregarPopupparcelas}).setStyle({color:'#FF0000'}),
 				zona12= L.geoJson(ResidencialMixta1,{ onEachFeature: agregarPopupparcelas}).setStyle({color:'#ff7f00'}),
 				zona13= L.geoJson(Residencialr6,{ onEachFeature: agregarPopupparcelas}).setStyle({color:'#199f2d'}),
-				zona14= L.geoJson(Residencialr1r2r3r4r5,{ onEachFeature: agregarPopupparcelas}).setStyle({color:'#74d1af'}),
-		
-				parcegrupo= L.layerGroup([parce1, parce2,]);
+				zona14= L.geoJson(Residencialr1r2r3r4r5,{ onEachFeature: agregarPopupparcelas}).setStyle({color:'#74d1af'});
 				
 				
 
@@ -217,9 +162,6 @@
 			var map = L.map('map', {
 				layers: [mapa_bing,godoycruz]
 			}).setView([-32.9314, -68.8497], 13);
-			
-			/* FUNCIONES DE ESTILO DE OVERLAYS */
-			estiloZonificacion();
 			
           
 			/* CREACIÓN DEL LAYERS CONTROL */
@@ -229,15 +171,6 @@
 				 "Satelite Bing": mapa_bing,
 			};
 			
-				
-			/*var overlayMaps = {
-				"Infraestructura urbana":{
-				"Parcelas Zonificadas":parce,
-			
-			
-				
-				
-			};*/
 			var groupedOverlays = {
 				
 				
@@ -267,18 +200,14 @@
 			var opciones_groupedlayers = {
 				groupCheckboxes: false
 			};
-		    //L.control.layers(baseMaps, overlayMaps).addTo(map);
 			
 		    L.control.groupedLayers(baseMaps, groupedOverlays, opciones_groupedlayers).addTo(map);
-			map.on('overlayadd', onOverlayAdd);
-		    map.on('overlayremove', onOverlayRemove);
 			L.control.scale().addTo(map);
 			L.control.polylineMeasure().addTo(map);
 			
 			
 		</script>
 	</body>
-<h1 style="position: relative; margin-top: 20px; margin-left: 100px; z-index: 2">Los datos son orientativos, dependen  de verificación en planificación urbana </h1>
 </html>
        
 
