@@ -34,7 +34,7 @@
 			
 		    #referencias {
 				position: absolute;
-				top: 650px;
+				top: 750px;
 				left: 12px;
 				z-index: 400;
 		    }
@@ -84,10 +84,10 @@
 		
 	</head>
 	<body> 
-		<div style="position: absolute; margin-bottom: 20px; margin-left: 50px; z-index: 2"> </div>
+		<div style="position: absolute; margin-bottom: 10px; margin-left: 100px; z-index: 2"> </div>
 		<h1 style="position: relative; margin-top: 10px; margin-left: 100px; z-index: 2">Observatorio Territorial de Godoy Cruz - Indicadores Urbanos </h1>
 		<img src="favicon.png" height= "45px" width="45px" align=right class="logogc">
-		<div id="map" class="map map-home" style="margin:8px 0 8px 0;height:680px;"></div> 
+		<div id="map" class="map map-home" style="margin:8px 0 8px 0;height:800px;"></div> 
 		<div id="referencias">
 			<div class="icono_referencia">Los datos son orientativos, dependen  de verificación en planificación urbana</div>
 		</div>
@@ -131,7 +131,7 @@
 			
 			/* BASE LAYERS */
 			var esriUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-		        esriAttrib = '&copy; <a href="https://www.esri.com/en-us/home">ESRI</a>',
+		        esriAttrib = '&copy; <a href="https://www.esri.es/es-es/home">ESRI</a> contributors',
 			    mapabase_esri = L.tileLayer(esriUrl,{ maxZoom: 20, attribution: esriAttrib });
 
 			var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -167,7 +167,7 @@
 			/* CREACIÓN DEL MAPA CON BASE LAYERS Y OVERLAYS */
 			var map = L.map('map', {
 				layers: [mapabase_esri,godoycruz]
-			}).setView([-32.9337, -68.8978], 13);
+			}).setView([-32.9314, -68.8497], 13);
 			
           
 			/* CREACIÓN DEL LAYERS CONTROL */
