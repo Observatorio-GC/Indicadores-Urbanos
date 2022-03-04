@@ -130,13 +130,19 @@
 			
 			
 			/* BASE LAYERS */
+			var esriUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+		        esriAttrib = '&copy; <a href="https://www.esri.es/es-es/home">ESRI</a> contributors',
+			    mapabase_esri = L.tileLayer(esriUrl,{ maxZoom: 20, attribution: esriAttrib });
+
 			var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 				osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 				mapabase_osm = L.tileLayer(osmUrl, {maxZoom: 20, attribution: osmAttrib});
+
 			var otUrl = 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
 				otAttrib = 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
 				mapabase_ot = L.tileLayer(otUrl, {maxZoom: 20, attribution: otAttrib});
-			var mapa_bing = L.bingLayer('AggHCsJIZIwHrL4Bm6Bt7O1JMXRVk6ca6IoFkILGNWFSl3RAWg-RuYq2jG5VzpIK');
+
+			
 							
 			/* OVERLAYS Y GRUPOS */
 			var plazagc = L.marker([-32.92524, -68.84439]).bindPopup('Plaza GC.').openPopup(),
@@ -160,7 +166,7 @@
 
 			/* CREACIÓN DEL MAPA CON BASE LAYERS Y OVERLAYS */
 			var map = L.map('map', {
-				layers: [mapa_bing,godoycruz]
+				layers: [mapabase_esri,godoycruz]
 			}).setView([-32.9314, -68.8497], 13);
 			
           
@@ -168,7 +174,7 @@
 			var baseMaps = {
 				"OpenTopoMap": mapabase_ot,
 				 "Argenmap": mapabase_argenmap,
-				 "Satelite Bing": mapa_bing,
+				 "ESRI Satelital": mapabase_esri,
 			};
 			
 			var groupedOverlays = {
