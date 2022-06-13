@@ -75,24 +75,24 @@
              * @type {String}
              * @default
              */
-            tooltipTextFinish: 'Click to <b>finish line</b><br>',
-            tooltipTextDelete: 'Press SHIFT-key and click to <b>delete point</b>',
-            tooltipTextMove: 'Click and drag to <b>move point</b><br>',
-            tooltipTextResume: '<br>Press CTRL-key and click to <b>resume line</b>',
-            tooltipTextAdd: 'Press CTRL-key and click to <b>add point</b>',
+            tooltipTextFinish: 'Clickear para <b>finalizar la línea</b><br>',
+            tooltipTextDelete: 'Apretar SHIFT y click para <b>borrar un punto</b>',
+            tooltipTextMove: 'Clickear y arrastrar para <b>mover un punto</b><br>',
+            tooltipTextResume: '<br>Apretar CTRL y click para <b>continuar la línea</b>',
+            tooltipTextAdd: 'Apretar CTRL y click para <b>añadir un punto</b>',
 
             /**
              * Title for the control going to be switched on
              * @type {String}
              * @default
              */
-            measureControlTitleOn: "Turn on PolylineMeasure",
+            measureControlTitleOn: "Medir Distancia ON", //Turn on PolylineMeasure//
             /**
              * Title for the control going to be switched off
              * @type {String}
              * @default
              */
-            measureControlTitleOff: "Turn off PolylineMeasure",
+            measureControlTitleOff: "Medir Distancia OFF",  //Turn off PolylineMeasure//
             /**
              * Label of the Measure control (maybe a unicode symbol)
              * @type {String}
