@@ -7,9 +7,12 @@
 		<link rel="shortcut icon" type="image/x-icon" href="favicon1.png">
 
 		<!-- CSS -->
-		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css">
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css">
 		<link rel="stylesheet" href="css/Leaflet.PolylineMeasure.css">
 		<link rel="stylesheet" href="css/leaflet.groupedlayercontrol.min.css">
+		<link rel="stylesheet" href="css/Control.Coordinates.css">
+	    <link rel="stylesheet" href="css/L.Control.MousePosition.css">
+
 		<style type="text/css">	
 			.leaflet-control-attribution.leaflet-control a:hover {color:#800080}
 			.logogc{position:absolute;z-index:2;top:9px;right:100px}
@@ -50,22 +53,32 @@
 				border-style: solid;
 				padding: 5px;
 		    }
-		
+
+			.icon {
+            max-width: 70%;
+            max-height: 70%;
+            margin: 4px;
+        }
+
 		</style>
 		
 		<!-- SCRIPTS -->
-		<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+		<script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+	    <script src="https://unpkg.com/togeojson@0.14.2"></script>
 		<script src="scripts/Leaflet.PolylineMeasure.js"></script>
 		<script src="scripts/leaflet.pattern.js"></script>
 		<script src="scripts/leaflet-tilelayer-wmts.js"></script>
 		<script src="scripts/leaflet.groupedlayercontrol.min.js"></script>
 		<script src="scripts/Bing.js"></script>
+		<script src="scripts/leaflet.browser.print.js"></script>
+		<script src="scripts/leaflet.filelayer.js"></script>
+		<script src="scripts/Control.Coordinates.js"></script>
+		<script src="scripts/L.Control.MousePosition.js"></script>
 		
 		
 		<!-- GEOJSON -->
 		
 		<script type="text/javascript" src="scripts/godoycruz.js"></script>
-		
 		
 		<script type="text/javascript" src="scripts/Cementerio.js"></script>
 		<script type="text/javascript" src="scripts/Centro_civico.js"></script>
@@ -210,6 +223,72 @@
 		    L.control.groupedLayers(baseMaps, groupedOverlays, opciones_groupedlayers).addTo(map);
 			L.control.scale().addTo(map);
 			L.control.polylineMeasure().addTo(map);
+			L.control.mousePosition().addTo(map);
+
+		
+		/* IMPRESIÓN DE PANTALLA */
+     	var customActionToPrint = function(context, mode) {
+	      return function() {
+		  window.alert("We are printing the MAP. Let's do Custom print here!");
+		  context._printMode(mode);
+	       }};
+
+            L.control.browserPrint({
+	          title: 'Impresión de pantalla',
+	          //documentTitle: 'Map printed using leaflet.browser.print plugin',
+	          printLayer: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', godoycruz),
+	          closePopupsOnPrint: false,
+	          printModes: [
+                L.BrowserPrint.Mode.Auto("A4",{title: "Auto"}),
+                L.BrowserPrint.Mode.Custom("A3",{title:"Selecionar "})],
+	            manualMode: false}).addTo(map);
+			
+
+		/* CARGA ARCHIVOS */
+		(function (window) {
+			
+			function initMap() {
+            var control;
+            var L = window.L;
+		
+            var style = {
+             color: 'red',
+             opacity: 1.0,
+             fillOpacity: 1.0,
+             weight: 2,
+             clickable: false
+		    };
+
+        L.Control.FileLayerLoad.LABEL = '<img class="icon" src="js/nube.png" alt="file icon"/>';
+        control = L.Control.fileLayerLoad({
+            fitBounds: true,
+            layerOptions: {
+                style: style,
+                pointToLayer: function (data, latlng) {
+                    return L.circleMarker(
+                        latlng,
+                        { style: style }
+                    );
+                }
+            }
+        });
+        control.addTo(map);
+        control.loader.on('data:loaded', function (e) {
+            var layer = e.layer;
+            console.log(layer);
+        });}
+
+        window.addEventListener('load', function () {
+         initMap();
+         });}(window));
+
+
+        /* COORDENADAS CLICK MOUSE */
+      	var c = new L.Control.Coordinates();
+		c.addTo(map);
+		    function onMapClick(e) {
+			   c.setCoordinates(e);
+	        }map.on('click', onMapClick);
 			
 			
 		</script>
