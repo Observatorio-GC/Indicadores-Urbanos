@@ -1,0 +1,344 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+
+
+h1{
+    font-family: 'Playfair Display', serif;
+    color: #800080;
+    width: 90%;
+    height: auto;
+    position: relative; 
+    margin-top: 10px; 
+    margin-left: 10px; 
+    z-index: 2;
+}
+
+.icon {
+    visibility: visible;
+    max-width: 70%;
+    max-height: 70%;
+    margin: 4px;
+}
+
+#map{
+    height: 650px;
+    
+}
+
+#referencias {
+    font-family: 'Playfair Display';
+    font-size: 17px;
+    font-weight: lighter;
+    position: fixed;
+    width: 150px;
+    height: 50%;
+    top: 48%;
+    left: 20px;
+    z-index: 400;
+}
+
+#caminar {
+    font-family: 'Playfair Display';
+    font-size: 12px;
+    font-weight: normal;
+    position: fixed;
+    width: 260px;
+    height: 30%;
+    top: 35%;
+    left: 20px;
+}
+
+.titulo{
+    text-align: center;
+    font-size: 18px;
+    font-style: italic;
+    
+}
+
+.subtitulo{
+    background-color: #16b934;
+    border:3px solid black;
+    text-align:center;
+    font-weight: bold;
+}
+
+.bueno{
+    background-color: #fbeb09;
+    border:3px solid black;
+    text-align:center;
+}
+
+.regular{
+    background-color: #ff7f00;
+    border:3px solid black;
+    text-align:center;
+}
+
+.malo{
+    background-color: #e31a1c;
+    border:3px solid black;
+    text-align:center;
+}
+
+.icono_referencia {
+    display: none;
+    font-family: 'PlayfairDisplay', serif;
+    font-size: 18px/1.5;
+    color: #000000;
+    margin-bottom: 15px;
+    text-align: left;
+    background-color: rgba(255, 255, 255, 0.76);
+    border-color: #444444;
+    border-width: 3px;
+    border-style: solid;
+    padding: 10px;
+}
+
+@media (min-width:350px){
+
+    h1{
+    font-size: 20px;
+    }
+
+    #referencias {
+        font-family: 'Playfair Display';
+        font-size: 12px;
+        font-weight: lighter;
+        position: fixed;
+        width: 150px;
+        height: 50%;
+        top: 45%;
+        left: 20px;
+        z-index: 400;
+    }
+
+    #map{
+        height: 620px;
+    }
+
+}
+
+@media (min-width:400px){
+    #referencias {
+        font-family: 'Playfair Display';
+        font-size: 12px;
+        font-weight: lighter;
+        position: fixed;
+        width: 150px;
+        height: 50%;
+        top: 45%;
+        left: 20px;
+        z-index: 400;
+    }
+
+    #map{
+        height: 650px;
+    }
+}
+
+@media (min-width:450px){
+    #referencias {
+        font-family: 'Playfair Display';
+        font-size: 12px;
+        font-weight: lighter;
+        position: fixed;
+        width: 150px;
+        height: 50%;
+        top: 45%;
+        left: 20px;
+        z-index: 400;
+    }
+
+    #map{
+        height: 550px;
+    }
+
+}
+
+@media (min-width:500px){
+    #referencias {
+        font-family: 'Playfair Display';
+        font-size: 12px;
+        font-weight: lighter;
+        position: fixed;
+        width: 150px;
+        height: 50%;
+        top: 45%;
+        left: 20px;
+        z-index: 400;
+    }
+    #caminar {
+        font-family: 'Playfair Display';
+        font-size: 14px;
+        font-weight: normal;
+        position: fixed;
+        width: 260px;
+        height: 30%;
+        top: 20%;
+        left: 20px;
+    }
+
+    #map{
+        height: 600px;
+    }
+}
+
+@media (min-width:750px){
+    h1{
+        font-size: 25px;   
+      }
+
+    #referencias {
+        font-size: 12px;
+        top: 45%;
+    }
+
+    #caminar {
+        font-family: 'Playfair Display';
+        font-size: 14px;
+        font-weight: normal;
+        position: fixed;
+        width: 260px;
+        height: 30%;
+        top: 23%;
+        left: 20px;
+    }
+    .icon {
+        visibility: visible;
+        max-width: 70%;
+        max-height: 70%;
+        margin: 4px;
+    }
+
+    #map{
+        height: 600px;
+    }
+
+    #referencias {
+        font-family: 'Playfair Display';
+        font-size: 12px;
+        font-weight: lighter;
+        position: fixed;
+        width: 150px;
+        height: 50%;
+        top: 45%;
+        left: 20px;
+        z-index: 400;
+    }
+
+    #caminar {
+        font-family: 'Playfair Display';
+        font-size: 12px;
+        font-weight: normal;
+        position: fixed;
+        width: 300px;
+        height: 25%;
+        top: 23%;
+        left: 20px;
+    }
+}
+
+@media (min-width:1024px){
+    h1{
+        font-size: 30px;   
+      }
+
+      #referencias {
+        font-size: 14px;
+        top: 48%;
+    }
+
+    #caminar {
+        font-family: 'Playfair Display';
+        font-size: 12px;
+        font-weight: normal;
+        position: fixed;
+        width: 300px;
+        height: 25%;
+        top: 25%;
+        left: 20px;
+    }
+  
+    .icon {
+        visibility: visible;
+        max-width: 70%;
+        max-height: 70%;
+        margin: 4px;
+    }
+
+    #map{
+        height: 600px;
+    }
+}
+
+@media (min-width:1366px){
+
+    h1{
+      font-size: 30px;   
+    }
+
+    #referencias {
+        font-size: 17px;
+        top: 48%;
+    }
+
+    .icon {
+        visibility: visible;
+        max-width: 70%;
+        max-height: 70%;
+        margin: 4px;
+    }
+
+    #map{
+        height: 680px;
+    }
+}
+
+@media (min-width:1920px){
+    h1{
+        font-family: 'Playfair Display', serif;
+        color: #800080;
+        width: 90%;
+        height: auto;
+        font-size: 30px;   
+        position: relative; 
+        margin-top: 10px; 
+    }
+
+    #caminar {
+        font-family: 'Playfair Display';
+        font-size: 14px;
+        font-weight: normal;
+        position: fixed;
+        width: 260px;
+        height: 30%;
+        top: 26%;
+        left: 20px;
+    }
+
+    #referencias {
+        font-size: 17px;
+        top: 48%;
+    }
+
+    .logoobserv {
+        visibility: visible;
+        position: absolute;
+        z-index: 2;
+        top: 8px;
+        right: 120px;
+    }
+
+    .icon {
+        visibility: visible;
+        max-width: 70%;
+        max-height: 70%;
+        margin: 4px;
+    }
+    
+    #map{
+        height: 850px;
+    }
+}
+    
+
+ 
