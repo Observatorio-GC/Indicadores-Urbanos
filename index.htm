@@ -1,299 +1,423 @@
 ﻿<!DOCTYPE html>
 <html>
-	<head>
-		<meta charset=utf-8 /> 
-		<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui' />
-		<title>ObservatorioTerritorialGC</title>
-		<link rel="shortcut icon" type="image/x-icon" href="favicon1.png">
 
-		<!-- CSS -->
-		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css">
-		<link rel="stylesheet" href="css/Leaflet.PolylineMeasure.css">
-		<link rel="stylesheet" href="css/leaflet.groupedlayercontrol.min.css">
-		<link rel="stylesheet" href="css/Control.Coordinates.css">
-	    <link rel="stylesheet" href="css/L.Control.MousePosition.css">
+<head>
+	<meta charset=utf-8 />
+	<meta name='viewport'
+		content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui' />
+	<title>ObservatorioTerritorialGC</title>
+	<link rel="shortcut icon" type="image/x-icon" href="favicon1.png">
 
-		<style type="text/css">	
-			.leaflet-control-attribution.leaflet-control a:hover {color:#800080}
-			.logogc{position:absolute;z-index:2;top:9px;right:100px}
-			h1 { color: #800080;}
-			.leaflet-control-attribution.leaflet-control { font-size: 16px;	}
-			
-			@font-face {
-				font-family: Gotham;
-				src: url(fonts/Gotham-Book.otf);
-				font-weight: normal;
-			}
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css">
+	<link rel="stylesheet" href="css/Leaflet.PolylineMeasure.css">
+	<link rel="stylesheet" href="css/Leaflet.StreetViewButtons.css">
+	<link rel="stylesheet" href="css/Leaflet.StreetView1Buttons.css">
+	<link rel="stylesheet" href="css/leaflet.groupedlayercontrol.min.css">
+	<link rel="stylesheet" href="css/Control.Coordinates.css">
+	<link rel="stylesheet" href="css/L.Control.MousePosition.css">
 
-			@font-face {
-				font-family: Gotham;
-				src: url(fonts/Gotham-Bold.otf);
-				font-weight: bold;
-			}
-			
-			.leaflet-container {
-				font: 13px/1.5 Gotham;
-			}
-			
-		    #referencias {
-				position: absolute;
-				top: 750px;
-				left: 12px;
-				z-index: 400;
-		    }
+	<style>
+		.leaflet-container {
+			display: flex;
+			font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+			font-size: 11px;
+		}
 
-		    .icono_referencia {
-				font: 12px/1.5 Gotham;
-				color: #222222;
-				margin-bottom: 15px;
-				text-align: left;
-				background-color: rgba(255, 255, 255, 0.6);
-				border-color: #B90E0A;
-				border-width: 2px;
-				border-style: solid;
-				padding: 5px;
-		    }
+		.leaflet-control-attribution.leaflet-control {
+			font-family: 'Playfair Display', serif;
+			font-size: 12px;
+		}
 
-			.icon {
-            max-width: 70%;
-            max-height: 70%;
-            margin: 4px;
-        }
+		.leaflet-control-attribution.leaflet-control a:hover {
+			color: #800080;
+		}
+	</style>
 
-		</style>
-		
-		<!-- SCRIPTS -->
-		<script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
-	    <script src="https://unpkg.com/togeojson@0.14.2"></script>
-		<script src="scripts/Leaflet.PolylineMeasure.js"></script>
-		<script src="scripts/leaflet.pattern.js"></script>
-		<script src="scripts/leaflet-tilelayer-wmts.js"></script>
-		<script src="scripts/leaflet.groupedlayercontrol.min.js"></script>
-		<script src="scripts/Bing.js"></script>
-		<script src="scripts/leaflet.browser.print.js"></script>
-		<script src="scripts/leaflet.filelayer.js"></script>
-		<script src="scripts/Control.Coordinates.js"></script>
-		<script src="scripts/L.Control.MousePosition.js"></script>
-		
-		
-		<!-- GEOJSON -->
-		
-		<script type="text/javascript" src="scripts/godoycruz.js"></script>
-		
-		<script type="text/javascript" src="scripts/Cementerio.js"></script>
-		<script type="text/javascript" src="scripts/Centro_civico.js"></script>
-		<script type="text/javascript" src="scripts/ComercialMixta.js"></script>
-		<script type="text/javascript" src="scripts/Comercial.js"></script>
-		<script type="text/javascript" src="scripts/Cultural.js"></script>
-		<script type="text/javascript" src="scripts/EjesResidencialesEspeciales.js"></script>
-		<script type="text/javascript" src="scripts/ExtensionIndustrial.js"></script>
-		<script type="text/javascript" src="scripts/Industrial1.js"></script>
-		<script type="text/javascript" src="scripts/Industrial2.js"></script>
-		<script type="text/javascript" src="scripts/ParqueRecreacion.js"></script>
-		<script type="text/javascript" src="scripts/ResidencialMixta.js"></script>
-		<script type="text/javascript" src="scripts/ResidencialMixta1.js"></script>
-		<script type="text/javascript" src="scripts/Residencialr6.js"></script>
-		<script type="text/javascript" src="scripts/Residencialr1r2r3r4r5.js"></script>
-		
-	</head>
-	<body> 
-		<div style="position: absolute; margin-bottom: 10px; margin-left: 100px; z-index: 2"> </div>
-		<h1 style="position: relative; margin-top: 10px; margin-left: 100px; z-index: 2">Observatorio Territorial de Godoy Cruz - Indicadores Urbanos </h1>
-		<img src="favicon.png" height= "45px" width="45px" align=right class="logogc">
-		<div id="map" class="map map-home" style="margin:8px 0 8px 0;height:800px;"></div> 
+	<!-- SCRIPTS -->
+	<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+	<script src="https://unpkg.com/togeojson@0.16.0"></script>
+	<script src="scripts/Leaflet.PolylineMeasure.js"></script>
+	<script src="scripts/StreetViewButtons.js"></script>
+	<script src="scripts/StreetView1Buttons.js"></script>
+	<script src="scripts/leaflet.pattern.js"></script>
+	<script src="scripts/leaflet-tilelayer-wmts.js"></script>
+	<script src="scripts/leaflet.groupedlayercontrol.min.js"></script>
+	<script src="scripts/leaflet.browser.print.js"></script>
+	<script src="scripts/leaflet.filelayer.js"></script>
+	<script src="scripts/Control.Coordinates.js"></script>
+	<script src="scripts/L.Control.MousePosition.js"></script>
+	<script src="scripts/jquery-3.7.0.js"></script>
+	<script src="scripts/jquery-3.7.0.min.map"></script>
+	<script src="js/popups.js"></script>
+	<script src="js/iconos.js"></script>
+
+
+	<!-- GEOJSON -->
+
+	<script type="text/javascript" src="scripts/godoycruz.js"></script>
+	<script type="text/javascript" src="scripts/Cementerio.js"></script>
+	<script type="text/javascript" src="scripts/Centro_civico.js"></script>
+	<script type="text/javascript" src="scripts/ComercialMixta.js"></script>
+	<script type="text/javascript" src="scripts/Comercial.js"></script>
+	<script type="text/javascript" src="scripts/Cultural.js"></script>
+	<script type="text/javascript" src="scripts/EjesResidencialesEspeciales.js"></script>
+	<script type="text/javascript" src="scripts/ExtensionIndustrial.js"></script>
+	<script type="text/javascript" src="scripts/Industrial1.js"></script>
+	<script type="text/javascript" src="scripts/Industrial2.js"></script>
+	<script type="text/javascript" src="scripts/ParqueRecreacion.js"></script>
+	<script type="text/javascript" src="scripts/ResidencialMixta.js"></script>
+	<script type="text/javascript" src="scripts/ResidencialMixta1.js"></script>
+	<script type="text/javascript" src="scripts/Residencialr6.js"></script>
+	<script type="text/javascript" src="scripts/Residencialr1r2r3r4r5.js"></script>
+ 
+
+</head>
+
+<body>
+
+	<h1 >Observatorio Territorial de Godoy Cruz - Indicadores Urbanos </h1>
+<!-- 	<img src="favicon.png" height="auto" width="45px" class="logogc"> -->
+	<div id="map"></div>
+
+	<div id="referencias">
+		<div id="caminar">
+			<div class="icono_referencia" id="ref_zona14">
+				<h1 class="titulo"> Indicadores Urbanos </h1>
+			<h2 class="titulo"> Residencial r1-r2-r3-r4-r5
+				<h3 class="subtitulo"> 100 a 500 m2 </h3>
+					<p class="FOS Max">FOS Max: 0.70</p>
+					<p class="FOT Max">FOT Max: 2.10</p>
+				
+				<h3 class="subtitulo"> 501 a 1000 m2 </h3>
+					<p class="FOS Max">FOS Max: 0.65</p>
+					<p class="FOT Max">FOT Max: 1.95</p>
+				
+				<h3 class="subtitulo"> 1001 m2 en adelante </h3>
+					<p class="FOS Max">FOS Max: 0.60</p>
+					<p class="FOT Max">FOS Max: 1.80</p>
+				
+				<h3 class="subtitulo">Altura Max </h3>
+					<p class="FOS Max">Altura de Basamento</p>
+				
+			  </h2>	
+			</div>
+		</div>	
+
+
 		<div id="referencias">
-			<div class="icono_referencia">Los datos son orientativos, dependen  de verificación en planificación urbana</div>
+			<div id="caminar">
+				<div class="icono_referencia" id="ref_zona13">
+					<h1 class="titulo"> Indicadores Urbanos </h1>
+				<h2 class="titulo"> Residencial r6
+					<h3 class="subtitulo"> 100 a 500 m2 </h3>
+						<p class="FOS Max">FOS Max: 0.70 </p>
+						<p class="FOT Max">FOT Max: 4.20 </p>
+					
+					<h3 class="subtitulo"> 501 a 1000 m2 </h3>
+						<p class="FOS Max">FOS Max: 0.65 </p>
+						<p class="FOT Max">FOT Max: 3.90 </p>
+						
+					<h3 class="subtitulo"> 1001 m2 en adelante </h3>
+						<p class="FOS Max">FOS Max: 0.60 </p>
+						<p class="FOT Max">FOS Max: 3.60 </p>
+						
+					 <h3 class="subtitulo">Altura Max </h3>
+						<p class="FOS Max">18 mts</p> 
+					
+				  </h2>	
+				</div>
+			</div>	
 		</div>
-	
+		<div id="referencias">
+			<div id="caminar">
+				<div class="icono_referencia" id="ref_zona11">
+					<h1 class="titulo"> Indicadores Urbanos </h1>
+				<h2 class="titulo"> Residencial Mixta
+					<h3 class="subtitulo"> 100 a 500 m2 </h3>
+						<p class="FOS Max">FOS Max: 0.75 </p>
+						<p class="FOT Max">FOT Max: 4.50 </p>
+					
+					<h3 class="subtitulo"> 501 a 1000 m2 </h3>
+						<p class="FOS Max">FOS Max: 0.70 </p>
+						<p class="FOT Max">FOT Max: 4.20 </p>
+					
+					<h3 class="subtitulo"> 1001 m2 en adelante </h3>
+						<p class="FOS Max">FOS Max: 0.65 </p>
+						<p class="FOT Max">FOS Max: 3.90 </p>
+					
+					 <h3 class="subtitulo">Altura Max </h3>
+						<p class="FOS Max">18 mts</p> 
+					
+				  </h2>	
+				</div>
+			</div>	
+		</div>
+		<div id="referencias">
+			<div id="caminar">
+				<div class="icono_referencia" id="ref_zona3">
+					<h1 class="titulo"> Indicadores Urbanos </h1>
+				<h2 class="titulo"> Comercial Mixta
+					<h3 class="subtitulo"> 100 a 500 m2 </h3>
+						<p class="FOS Max">FOS Max: 0.80</p>
+						<p class="FOT Max">FOT Max: 6.40</p>
+		
+					<h3 class="subtitulo"> 501 a 1000 m2 </h3>
+						<p class="FOS Max">FOS Max: 0.75</p>
+						<p class="FOT Max">FOT Max: 6.00</p>
+				
+					<h3 class="subtitulo"> 1001 m2 en adelante </h3>
+						<p class="FOS Max">FOS Max: 0.70</p>
+						<p class="FOT Max">FOT Max: 5.60</p>
+				
+					 <h3 class="subtitulo">Altura Max </h3>
+						<p class="FOS Max">24 mts</p> 
+			
+				  </h2>	
+				</div>
+			</div>	
+		</div>
+		<div id="referencias">
+			<div id="caminar">
+				<div class="icono_referencia" id="ref_zona4">
+					<h1 class="titulo"> Indicadores Urbanos </h1>
+				<h2 class="titulo"> Comercial
+					<h3 class="subtitulo"> 100 a 500 m2 </h3>
+						<p class="FOS Max">FOS Max: 0.80</p>
+						<p class="FOT Max">FOT Max: 8.00</p>
+		
+					<h3 class="subtitulo"> 501 a 1000 m2 </h3>
+						<p class="FOS Max">FOS Max: 0.75</p>
+						<p class="FOT Max">FOT Max: 7.50</p>
+				
+					<h3 class="subtitulo"> 1001 m2 en adelante </h3>
+						<p class="FOS Max">FOS Max: 0.70</p>
+						<p class="FOT Max">FOT Max: 7.00</p>
+				
+					 <h3 class="subtitulo">Altura Max </h3>
+						<p class="FOS Max">30 mts</p> 
+			
+				  </h2>	
+				</div>
+			</div>	
+		</div>
+		<div id="referencias">
+			<div id="caminar">
+				<div class="icono_referencia" id="ref_zona6">
+					<h1 class="titulo"> Indicadores Urbanos </h1>
+				<h2 class="titulo"> Ejes Residenciales Especiales
+					<h3 class="subtitulo"> 100 a 500 m2 </h3>
+						<p class="FOS Max">FOS Max: 0.75</p>
+						<p class="FOT Max">FOT Max: 7.50</p>
+		
+					<h3 class="subtitulo"> 501 a 1000 m2 </h3>
+						<p class="FOS Max">FOS Max: 0.70</p>
+						<p class="FOT Max">FOT Max: 7.00</p>
+				
+					<h3 class="subtitulo"> 1001 m2 en adelante </h3>
+						<p class="FOS Max">FOS Max: 0.65</p>
+						<p class="FOT Max">FOT Max: 6.50</p>
+				
+					 <h3 class="subtitulo">Altura Max </h3>
+						<p class="FOS Max">30 mts</p> 
+			
+				  </h2>	
+				</div>
+			</div>	
+		</div>
+		<div id="referencias">
+			<div id="caminar">
+				<div class="icono_referencia" id="ref_zona12">
+					<h1 class="titulo"> Indicadores Urbanos </h1>
+				<h2 class="titulo"> Residencial Mixta 1
+					<h3 class="subtitulo"> 100 a 500 m2 </h3>
+						<p class="FOS Max">FOS Max: 0.70</p>
+						<p class="FOT Max">FOT Max: 2.10</p>
+		
+					<h3 class="subtitulo"> 501 a 1000 m2 </h3>
+						<p class="FOS Max">FOS Max: 0.65</p>
+						<p class="FOT Max">FOT Max: 1.95</p>
+				
+					<h3 class="subtitulo"> 1001 m2 en adelante </h3>
+						<p class="FOS Max">FOS Max: 0.60</p>
+						<p class="FOT Max">FOT Max: 1.80</p>
+				
+					 <h3 class="subtitulo">Altura Max </h3>
+						<p class="FOS Max">Altura de Basamento</p> 
+			
+				  </h2>	
+				</div>
+			</div>	
+		</div>
+		<div id="referencias">
+			<div id="caminar">
+				<div class="icono_referencia" id="ref_zona2">
+					<h1 class="titulo"> Indicadores Urbanos </h1>
+				<h2 class="titulo"> Centro Civico
+					<h3 class="subtitulo"> 100 a 500 m2 </h3>
+						<p class="FOS Max">FOS Max: 0.80</p>
+						<p class="FOT Max">FOT Max: 4.80</p>
+		
+					<h3 class="subtitulo"> 501 a 1000 m2 </h3>
+						<p class="FOS Max">FOS Max: 0.75</p>
+						<p class="FOT Max">FOT Max: 4.50</p>
+				
+					<h3 class="subtitulo"> 1001 m2 en adelante </h3>
+						<p class="FOS Max">FOS Max: 0.70</p>
+						<p class="FOT Max">FOT Max: 4.20</p>
+				
+					 <h3 class="subtitulo">Altura Max </h3>
+						<p class="FOS Max">18 mts</p> 
+			
+				  </h2>	
+				</div>
+			</div>	
+		</div>
+
+
 
 		<!-- FUNCIONES LEAFLET -->
 		<script>
 			/* ARGENMAP */
-			var mapabase_argenmap = new L.TileLayer.WMTS( 'https://wms.ign.gob.ar/geoserver/capabaseargenmap/gwc/service/wmts?' , {
+			var mapabase_argenmap = new L.TileLayer.WMTS('https://wms.ign.gob.ar/geoserver/capabaseargenmap/gwc/service/wmts?', {
 				layer: 'capabaseargenmap',
 				style: "normal",
 				tilematrixSet: "EPSG:3857",
 				format: "image/png",
 				attribution: " <a href='https://www.ign.gob.ar/AreaServicios/Argenmap/IntroduccionV2'> IGN - Argenmap v2 </a> | <a href='https://www.godoycruz.gob.ar/'>Secretaria de Ambiente y Desarrollo Sustentable - Godoy Cruz</a> | <a href='https://github.com/mylen/leaflet.TileLayer.WMTS'>GitHub</a>&copy "
 			});
-			
-			/* ICONOS */
-			var iconoComun = L.Icon.extend({
-				options: {
-					shadowUrl: 'img/marker-shadow.png',
-					iconSize:     [25, 41],
-					shadowSize:   [41, 41],
-					iconAnchor:   [12, 41],
-					popupAnchor:  [1, -34]
-				}
-			});
 
-			
-	
-			/* POPUPS */
-			
-			function agregarPopupparcelas(feature, layer) { 
-				if (feature.properties && feature.properties.ZONIFIC) { 
-						layer.bindPopup( "<strong><br/>"+ "Área:<strong>"+ feature.properties.ZONIFIC + "</strong><br/>" +"FOS en parcelas de 100 a 500 m2: <strong>"+feature.properties.FOS_1 + "</strong><br/>" +"FOS en parcelas de 501 a 1000 m2: <strong>"+ feature.properties.FOS_2 + "</strong><br/>" 
-						+"FOS en parcelas de 1001m2 en adelante: <strong>"+ feature.properties.FOS_3 + "</strong><br/>" +"FOT en parcelas de 100 a 500 m2: <strong>"+ feature.properties.FOT_1+ "</strong><br/>" +"FOT en parcelasde 501 a 1000 m2: <strong>" +feature.properties.FOT_2 + "</strong><br/>" +"FOT en parcelas de 1000m2 en adelante: <strong>"+ feature.properties.FOT_3 
-						+ "</strong><br/>" +"Altura máxima en metros: <strong>"+feature.properties.ALTURA_MAX);
-				} 
-			}
-			
-			
-			
+
 			/* BASE LAYERS */
 			var esriUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-		        esriAttrib = 'Powered by &copy; <a  href="https://www.esri.com/en-us/home">  ESRI</a>',
-			    mapabase_esri = L.tileLayer(esriUrl,{ maxZoom: 20, attribution: esriAttrib });
+				esriAttrib = 'Powered by &copy; <a  href="https://www.esri.com/en-us/home">  ESRI</a>',
+				mapabase_esri = L.tileLayer(esriUrl, {
+					maxZoom: 20,
+					attribution: esriAttrib
+				});
 
 			var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 				osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-				mapabase_osm = L.tileLayer(osmUrl, {maxZoom: 20, attribution: osmAttrib});
+				mapabase_osm = L.tileLayer(osmUrl, {
+					maxZoom: 20,
+					attribution: osmAttrib
+				});
 
 			var otUrl = 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
-				otAttrib = 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
-				mapabase_ot = L.tileLayer(otUrl, {maxZoom: 20, attribution: otAttrib});
+				otAttrib =
+				'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
+				mapabase_ot = L.tileLayer(otUrl, {
+					maxZoom: 20,
+					attribution: otAttrib
+				});
 
-			
-							
+
+
 			/* OVERLAYS Y GRUPOS */
 			var plazagc = L.marker([-32.92524, -68.84439]).bindPopup('Plaza GC.').openPopup(),
 				godoycruz = L.geoJson(godoycruz),
-				zona1 = L.geoJson(Cementerio).setStyle({color:"#C35918"}),
-				zona2 = L.geoJson(Centro_civico,{ onEachFeature: agregarPopupparcelas}).setStyle({color:'#2f6e9e'}),
-				zona3 = L.geoJson(ComercialMixta,{ onEachFeature: agregarPopupparcelas}).setStyle({color:'#fff600'}),
-				zona4= L.geoJson(Comercial,{ onEachFeature: agregarPopupparcelas}).setStyle({color:'#F0C250'}),
-				zona5= L.geoJson(Cultural).setStyle({color:'#b31417'}),
-				zona6= L.geoJson(EjesResidencialesEspeciales,{ onEachFeature: agregarPopupparcelas}).setStyle({color:'blue'}),
-				zona7= L.geoJson(ExtensionIndustrial).setStyle({color:'#1feeb4'}),
-				zona8= L.geoJson(Industrial1).setStyle({color:'#800080'}),
-				zona9= L.geoJson(Industrial2).setStyle({color:'#5d3064'}),
-				zona10= L.geoJson(ParqueRecreacion).setStyle({color:'#E1E1E1'}),
-				zona11= L.geoJson(ResidencialMixta,{ onEachFeature: agregarPopupparcelas}).setStyle({color:'#FF0000'}),
-				zona12= L.geoJson(ResidencialMixta1,{ onEachFeature: agregarPopupparcelas}).setStyle({color:'#ff7f00'}),
-				zona13= L.geoJson(Residencialr6,{ onEachFeature: agregarPopupparcelas}).setStyle({color:'#199f2d'}),
-				zona14= L.geoJson(Residencialr1r2r3r4r5,{ onEachFeature: agregarPopupparcelas}).setStyle({color:'#74d1af'});
-				
-				
+				zona1 = L.geoJson(Cementerio).setStyle({
+					color: "#C35918"
+				}),
+				zona2 = L.geoJson(Centro_civico, {
+					
+				}).setStyle({
+					color: '#2f6e9e'
+				}),
+				zona3 = L.geoJson(ComercialMixta, {
+					onEachFeature: agregarPopupparcelas
+				}).setStyle({
+					color: '#fff600'
+				}),
+				zona4 = L.geoJson(Comercial, {
+		            onEachFeature: agregarPopupComercial
+				}).setStyle({
+					color: '#F0C250'
+				}),
+				zona5 = L.geoJson(Cultural).setStyle({
+					color: '#b31417'
+				}),
+				zona6 = L.geoJson(EjesResidencialesEspeciales, {
+					onEachFeature: agregarPopupparcelas
+				}).setStyle({
+					color: 'blue'
+				}),
+				zona7 = L.geoJson(ExtensionIndustrial).setStyle({
+					color: '#1feeb4'
+				}),
+				zona8 = L.geoJson(Industrial1).setStyle({
+					color: '#800080'
+				}),
+				zona9 = L.geoJson(Industrial2).setStyle({
+					color: '#5d3064'
+				}),
+				zona10 = L.geoJson(ParqueRecreacion).setStyle({
+					color: '#E1E1E1'
+				}),
+				zona11 = L.geoJson(ResidencialMixta, {
+					onEachFeature: agregarPopupparcelas
+				}).setStyle({
+					color: '#FF0000'
+				}),
+				zona12 = L.geoJson(ResidencialMixta1, {
+				}).setStyle({
+					color: '#ff7f00'
+				}),
+				zona13 = L.geoJson(Residencialr6, {
+					onEachFeature: agregarPopupparcelas
+				}).setStyle({
+					color: '#199f2d'
+				}),
+				zona14 = L.geoJson(Residencialr1r2r3r4r5, {
+					onEachFeature: agregarPopupparcelas
+				}).setStyle({
+					color: '#74d1af'
+				});
+
 
 			/* CREACIÓN DEL MAPA CON BASE LAYERS Y OVERLAYS */
 			var map = L.map('map', {
-				layers: [mapabase_esri,godoycruz]
-			}).setView([-32.9337, -68.8978], 13);
-			
-          
+				layers: [mapabase_esri, godoycruz]
+			}).setView([-32.9337, -68.9088], 13);
+
+
 			/* CREACIÓN DEL LAYERS CONTROL */
 			var baseMaps = {
 				"OpenTopoMap": mapabase_ot,
-				 "Argenmap": mapabase_argenmap,
-				 "ESRI Satelital": mapabase_esri,
+				"Argenmap": mapabase_argenmap,
+				"ESRI Satelital": mapabase_esri,
 			};
-			
+
 			var groupedOverlays = {
-				
-				
-				"Indicadores Urbanos por zonas ":{
-				"Cementerio":zona1,
-				"Centro Civico":zona2,
-				"Comercial Mixta":zona3,
-				"Comercial":zona4,
-				"Cultural":zona5,
-				"Ejes Residenciales Especiales":zona6,
-				"Extension Industrial":zona7,
-				"Industrial 1":zona8,
-				"Industrial 2":zona9,
-				"Parque Recreación":zona10,
-				"Residencial Mixta":zona11,
-				"Residencial Mixta 1":zona12,
-				"Residencial r 6":zona13,
-				"Residencial r1 r2 r3 r4 r5": zona14,
-				
-				
+
+				"Indicadores Urbanos por zonas ": {
+					"Cementerio": zona1,
+					"Centro Civico": zona2,
+					"Comercial Mixta": zona3,
+					"Comercial": zona4,
+					"Cultural": zona5,
+					"Ejes Residenciales Especiales": zona6,
+					"Extension Industrial": zona7,
+					"Industrial 1": zona8,
+					"Industrial 2": zona9,
+					"Parque Recreación": zona10,
+					"Residencial Mixta": zona11,
+					"Residencial Mixta 1": zona12,
+					"Residencial r6": zona13,
+					"Residencial r1 r2 r3 r4 r5": zona14,
+
 				},
-			   
-				
-				
 			};
 
 			var opciones_groupedlayers = {
-				groupCheckboxes: false
-			};
-			
-		    L.control.groupedLayers(baseMaps, groupedOverlays, opciones_groupedlayers).addTo(map);
-			L.control.scale().addTo(map);
-			L.control.polylineMeasure().addTo(map);
-			L.control.mousePosition().addTo(map);
+			groupCheckboxes: false
+		};
 
-		
-		/* IMPRESIÓN DE PANTALLA */
-     	var customActionToPrint = function(context, mode) {
-	      return function() {
-		  window.alert("We are printing the MAP. Let's do Custom print here!");
-		  context._printMode(mode);
-	       }};
+		L.control.mousePosition().addTo(map);
+	</script>
 
-            L.control.browserPrint({
-	          title: 'Impresión de pantalla',
-	          //documentTitle: 'Map printed using leaflet.browser.print plugin',
-	          printLayer: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', godoycruz),
-	          closePopupsOnPrint: false,
-	          printModes: [
-                L.BrowserPrint.Mode.Auto("A4",{title: "Auto"}),
-                L.BrowserPrint.Mode.Custom("A3",{title:"Selecionar "})],
-	            manualMode: false}).addTo(map);
-			
+	<script src="js/funcionesMapa.js"></script>
+</body>
 
-		/* CARGA ARCHIVOS */
-		(function (window) {
-			
-			function initMap() {
-            var control;
-            var L = window.L;
-		
-            var style = {
-             color: 'red',
-             opacity: 1.0,
-             fillOpacity: 1.0,
-             weight: 2,
-             clickable: false
-		    };
-
-        L.Control.FileLayerLoad.LABEL = '<img class="icon" src="js/nube.png" alt="file icon"/>';
-        control = L.Control.fileLayerLoad({
-            fitBounds: true,
-            layerOptions: {
-                style: style,
-                pointToLayer: function (data, latlng) {
-                    return L.circleMarker(
-                        latlng,
-                        { style: style }
-                    );
-                }
-            }
-        });
-        control.addTo(map);
-        control.loader.on('data:loaded', function (e) {
-            var layer = e.layer;
-            console.log(layer);
-        });}
-
-        window.addEventListener('load', function () {
-         initMap();
-         });}(window));
-
-
-        /* COORDENADAS CLICK MOUSE */
-      	var c = new L.Control.Coordinates();
-		c.addTo(map);
-		    function onMapClick(e) {
-			   c.setCoordinates(e);
-	        }map.on('click', onMapClick);
-			
-			
-		</script>
-	</body>
 </html>
-       
-
-      
