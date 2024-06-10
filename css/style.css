@@ -12,6 +12,13 @@ h1{
     z-index: 2;
 }
 
+.logogc {
+    position: absolute;
+    z-index: 2;
+    top: 10px;
+    right: 90px;
+}
+
 .icon {
     visibility: visible;
     max-width: 70%;
@@ -318,14 +325,6 @@ h1{
     #referencias {
         font-size: 17px;
         top: 48%;
-    }
-
-    .logoobserv {
-        visibility: visible;
-        position: absolute;
-        z-index: 2;
-        top: 8px;
-        right: 120px;
     }
 
     .icon {
