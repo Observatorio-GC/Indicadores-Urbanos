@@ -19,13 +19,6 @@ h1{
     right: 90px;
 }
 
-.icon {
-    visibility: visible;
-    max-width: 70%;
-    max-height: 70%;
-    margin: 4px;
-}
-
 #map{
     height: 650px;
     
@@ -103,23 +96,35 @@ h1{
 @media (min-width:350px){
 
     h1{
-    font-size: 20px;
+    font-size: 18px;
     }
-
+    #caminar {
+        font-family: 'Playfair Display';
+        font-size: 9px;
+        font-weight: normal;
+        position: fixed;
+        width: 220px;
+        left: 20px;
+    }
     #referencias {
         font-family: 'Playfair Display';
-        font-size: 12px;
+        font-size: 9px;
         font-weight: lighter;
         position: fixed;
-        width: 150px;
-        height: 50%;
-        top: 45%;
+        top: 25%;
         left: 20px;
         z-index: 400;
     }
-
+    .titulo{
+        text-align: center;
+        font-size: 10px;
+        font-style: italic;
+    }
     #map{
-        height: 620px;
+        height: 720px;
+    }
+    .logogc {
+        visibility: hidden;
     }
 
 }
@@ -130,15 +135,17 @@ h1{
         font-size: 12px;
         font-weight: lighter;
         position: fixed;
-        width: 150px;
-        height: 50%;
+        width: 120px;
+        height: 30%;
         top: 45%;
         left: 20px;
         z-index: 400;
     }
-
     #map{
-        height: 650px;
+        height: 750px;
+    }
+    .logogc {
+        visibility: hidden;
     }
 }
 
@@ -154,38 +161,37 @@ h1{
         left: 20px;
         z-index: 400;
     }
-
     #map{
-        height: 550px;
+        height: 750px;
     }
-
+    .logogc {
+        visibility: hidden;
+    }
 }
 
 @media (min-width:500px){
+    #caminar {
+        font-family: 'Playfair Display';
+        font-size: 9px;
+        font-weight: normal;
+        position: fixed;
+        width: 220px;
+        left: 20px;
+    }
     #referencias {
         font-family: 'Playfair Display';
-        font-size: 12px;
+        font-size: 9px;
         font-weight: lighter;
         position: fixed;
-        width: 150px;
-        height: 50%;
-        top: 45%;
+        top: 25%;
         left: 20px;
         z-index: 400;
     }
-    #caminar {
-        font-family: 'Playfair Display';
-        font-size: 14px;
-        font-weight: normal;
-        position: fixed;
-        width: 260px;
-        height: 30%;
-        top: 20%;
-        left: 20px;
-    }
-
     #map{
-        height: 600px;
+        height: 750px;
+    }
+    .logogc {
+        visibility: hidden;
     }
 }
 
@@ -193,12 +199,15 @@ h1{
     h1{
         font-size: 25px;   
       }
-
     #referencias {
         font-size: 12px;
         top: 45%;
     }
-
+    .titulo{
+        text-align: center;
+        font-size: 18px;
+        font-style: italic;
+    }
     #caminar {
         font-family: 'Playfair Display';
         font-size: 14px;
@@ -209,17 +218,9 @@ h1{
         top: 23%;
         left: 20px;
     }
-    .icon {
-        visibility: visible;
-        max-width: 70%;
-        max-height: 70%;
-        margin: 4px;
-    }
-
     #map{
-        height: 600px;
+        height: 750px;
     }
-
     #referencias {
         font-family: 'Playfair Display';
         font-size: 12px;
@@ -231,7 +232,6 @@ h1{
         left: 20px;
         z-index: 400;
     }
-
     #caminar {
         font-family: 'Playfair Display';
         font-size: 12px;
@@ -247,13 +247,11 @@ h1{
 @media (min-width:1024px){
     h1{
         font-size: 30px;   
-      }
-
-      #referencias {
+    }
+    #referencias {
         font-size: 14px;
         top: 48%;
     }
-
     #caminar {
         font-family: 'Playfair Display';
         font-size: 12px;
@@ -264,39 +262,27 @@ h1{
         top: 25%;
         left: 20px;
     }
-  
-    .icon {
-        visibility: visible;
-        max-width: 70%;
-        max-height: 70%;
-        margin: 4px;
-    }
-
     #map{
-        height: 600px;
+        height: 750px;
+    }
+    .logogc {
+        visibility: visible;
     }
 }
 
 @media (min-width:1366px){
-
     h1{
       font-size: 30px;   
     }
-
     #referencias {
         font-size: 17px;
         top: 48%;
     }
-
-    .icon {
-        visibility: visible;
-        max-width: 70%;
-        max-height: 70%;
-        margin: 4px;
-    }
-
     #map{
         height: 680px;
+    }
+    .logogc {
+        visibility: visible;
     }
 }
 
@@ -310,7 +296,6 @@ h1{
         position: relative; 
         margin-top: 10px; 
     }
-
     #caminar {
         font-family: 'Playfair Display';
         font-size: 14px;
@@ -321,21 +306,15 @@ h1{
         top: 26%;
         left: 20px;
     }
-
     #referencias {
         font-size: 17px;
         top: 48%;
     }
-
-    .icon {
-        visibility: visible;
-        max-width: 70%;
-        max-height: 70%;
-        margin: 4px;
-    }
-    
     #map{
-        height: 850px;
+        height: 830px;
+    }
+    .logogc {
+        visibility: visible;
     }
 }
     
