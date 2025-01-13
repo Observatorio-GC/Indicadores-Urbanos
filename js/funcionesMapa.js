@@ -35,7 +35,13 @@ function onOverlayAdd(e) {
         idlayer = "zona12";
     } else if (e.name == "Centro Civico") {
         idlayer = "zona2";
-    } 
+    } else if (e.name == "Industrial 1") {
+        idlayer = "zona8";
+    } else if (e.name == "Industrial 2") {
+        idlayer = "zona9";
+    } else if (e.name == "Extensión Industrial") {
+        idlayer = "zona7";
+    }
     document.getElementById("ref_" + idlayer).style.display = 'block';
 }
 
@@ -57,7 +63,13 @@ function onOverlayRemove(e) {
         idlayer = "zona12";
     } else if (e.name == "Centro Civico") {
         idlayer = "zona2";
-    } 
+    } else if (e.name == "Industrial 1") {
+        idlayer = "zona8";
+    } else if (e.name == "Industrial 2") {
+        idlayer = "zona9";
+    } else if (e.name == "Extensión Industrial") {
+        idlayer = "zona7";
+    }
     document.getElementById("ref_" + idlayer).style.display = 'none';
 }
 include('logger.php');
