@@ -93,17 +93,24 @@
 				<h3 class="subtitulo"> 100 a 500 m2 </h3>
 					<p class="FOS Max">FOS Max: 0.70</p>
 					<p class="FOT Max">FOT Max: 2.10</p>
+					<p class="FOS Max ">FOT Max Mayor Uso: 0.70</p>
+					<p class="FOT Max ">FOT Max Mayor Uso: 2.81</p>
 				
 				<h3 class="subtitulo"> 501 a 1000 m2 </h3>
 					<p class="FOS Max">FOS Max: 0.65</p>
 					<p class="FOT Max">FOT Max: 1.95</p>
+					<p class="FOS Max ">FOT Max Mayor Uso: 0.65</p>
+					<p class="FOT Max ">FOT Max Mayor Uso: 2.61</p>
 				
 				<h3 class="subtitulo"> 1001 m2 en adelante </h3>
 					<p class="FOS Max">FOS Max: 0.60</p>
 					<p class="FOT Max">FOS Max: 1.80</p>
+					<p class="FOS Max ">FOT Max Mayor Uso: 0.60</p>
+					<p class="FOT Max ">FOT Max Mayor Uso: 2.41</p>
 				
 				<h3 class="subtitulo">Altura Max </h3>
 					<p class="FOS Max">Altura de Basamento</p>
+					<p class="FOS Max">Altura Mayor uso: 12 mts</p>
 				
 			  </h2>	
 			  <a href="https://drive.google.com/file/d/1jTskcftSUGQw3nZqEeFfVlMXU0LDEUUb/view?usp=sharing" target="_blank">ACCESO A LA ORDENANZA 5924/11</a>
@@ -326,20 +333,14 @@
 				style: "normal",
 				tilematrixSet: "EPSG:3857",
 				format: "image/png",
-				attribution: " <a href='https://www.ign.gob.ar/AreaServicios/Argenmap/IntroduccionV2'> IGN - Argenmap v2 </a> | <a href='https://www.godoycruz.gob.ar/'>Secretaria de Ambiente y Desarrollo Sustentable - Godoy Cruz</a> | <a href='https://github.com/mylen/leaflet.TileLayer.WMTS'>GitHub</a>&copy "
+				attribution: " <a href='https://www.ign.gob.ar/AreaServicios/Argenmap/IntroduccionV2'> IGN - Argenmap v2 </a> | <a href='https://www.godoycruz.gob.ar/gobierno/secretaria-de-hacienda/direccion-de-catastro/'>Dirección de Catastro - Municipalidad de Godoy Cruz</a>"
 			});
 
 
 			/* BASE LAYERS */
-			var esriUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-				esriAttrib = 'Powered by &copy; <a  href="https://www.esri.com/en-us/home">  ESRI</a>',
-				mapabase_esri = L.tileLayer(esriUrl, {
-					maxZoom: 20,
-					attribution: esriAttrib
-				});
-
+		
 			var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-				osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+				osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> | <a href="https://www.godoycruz.gob.ar/gobierno/secretaria-de-hacienda/direccion-de-catastro/"> Dirección de Catastro - Municipalidad de Godoy Cruz ',
 				mapabase_osm = L.tileLayer(osmUrl, {
 					maxZoom: 20,
 					attribution: osmAttrib
@@ -347,7 +348,7 @@
 
 	
 			var googleSatelite = 'http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}',
-				googleSateliteAttrib ="Powered by &copyGoogle",
+				googleSateliteAttrib ="Powered by &copyGoogle | <a href='https://www.godoycruz.gob.ar/gobierno/secretaria-de-hacienda/direccion-de-catastro/'>Dirección de Catastro - Municipalidad de Godoy Cruz</a>",
 				mapabase_googleSatelite = L.tileLayer(googleSatelite, {
 					maxZoom: 20,
 					attribution: googleSateliteAttrib
@@ -419,7 +420,7 @@
 
 			/* CREACIÓN DEL MAPA CON BASE LAYERS Y OVERLAYS */
 			var map = L.map('map', {
-				layers: [mapabase_esri, godoycruz]
+				layers: [mapabase_googleSatelite, godoycruz]
 			}).setView([-32.9337, -68.9088], 13);
 
 
@@ -427,7 +428,6 @@
 			var baseMaps = {
 				"OpenStreetMap": mapabase_osm,
 				"Argenmap": mapabase_argenmap,
-				"ESRI Satelital": mapabase_esri,
 				"Google Satelital": mapabase_googleSatelite,
 			};
 
