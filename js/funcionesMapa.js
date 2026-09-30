@@ -8,11 +8,11 @@ map.on('overlayremove', onOverlayRemove);
 
 
 /* COORDENADAS CLICK MOUSE */
-  var c = new L.Control.Coordinates();
-c.addTo(map);
-    function onMapClick(e) {
-       c.setCoordinates(e);
-    }map.on('click', onMapClick);
+//   var c = new L.Control.Coordinates();
+// c.addTo(map);
+//     function onMapClick(e) {
+//        c.setCoordinates(e);
+//     }map.on('click', onMapClick);
 
 
 
