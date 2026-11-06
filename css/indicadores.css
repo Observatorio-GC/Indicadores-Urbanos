@@ -254,6 +254,40 @@ select {
     font-size: 13px;
 }
 
+.layer-actions {
+    margin: 0 15px 8px;
+}
+
+.layer-actions button {
+    padding: 7px 10px;
+    border: 1px solid #667eea;
+    border-radius: 4px;
+    background: #fff;
+    color: #394ca8;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.layer-actions button:hover:not(:disabled) {
+    background: #f1f3ff;
+}
+
+.layer-actions button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.layer-actions p {
+    margin: 6px 0 0;
+    font-size: 12px;
+    color: #555;
+}
+
+.layer-actions p:empty {
+    display: none;
+}
+
 .layer-list {
     padding: 0 15px 15px;
 }
@@ -329,6 +363,59 @@ select {
 
 .parcel-popup dd {
     margin: 0;
+}
+
+.urban-indicators {
+    margin-top: 10px;
+}
+
+.urban-indicators summary {
+    margin: 0 0 8px;
+    color: #a60961;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.urban-indicators summary:focus-visible {
+    outline: 2px solid #a60961;
+    outline-offset: 2px;
+}
+
+.urban-indicators h5 {
+    margin: 10px 0 3px;
+    font-size: 12px;
+}
+
+.leaflet-container .urban-indicators p {
+    margin: 3px 0;
+}
+
+.leaflet-container .urban-indicators .indicator-heights {
+    margin-top: 10px;
+}
+
+.parcel-details {
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.parcel-details summary {
+    color: #a60961;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.parcel-details summary:focus-visible {
+    outline: 2px solid #a60961;
+    outline-offset: 2px;
+}
+
+.leaflet-container .parcel-popup .indicator-source {
+    margin: 12px 0 0;
+    color: #666;
+    font-size: 11px;
 }
 
 @media (max-width: 1024px) {

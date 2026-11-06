@@ -61,18 +61,22 @@
         { key: 'Zonific_1', label: 'Zonificación' },
         { key: 'id', label: 'ID' },
         { key: 'coor_x', label: 'Coordenada X' },
-        { key: 'coor_y', label: 'Coordenada Y' },
-        { key: 'nc_20', label: 'Nomenclatura (20 dígitos)' },
-        { key: 'nc_16', label: 'Nomenclatura (16 dígitos)' }
+        { key: 'coor_y', label: 'Coordenada Y' }
     ];
 
-    function createPopup(feature, zoneName) {
+    function createPopup(feature, zone, layer) {
         var container = document.createElement('div');
         var heading = document.createElement('h3');
+        var details = document.createElement('details');
+        var summary = document.createElement('summary');
         var list = document.createElement('dl');
         container.className = 'parcel-popup';
-        heading.textContent = zoneName;
+        heading.textContent = zone.name;
         container.appendChild(heading);
+        appendUrbanIndicators(container, zone, layer);
+        details.className = 'parcel-details';
+        summary.textContent = 'Ver datos de la parcela';
+        details.appendChild(summary);
         fields.forEach(function (field) {
             var value = feature.properties && feature.properties[field.key];
             if (value === null || value === undefined || value === '') return;
@@ -83,8 +87,67 @@
             list.appendChild(term);
             list.appendChild(description);
         });
-        container.appendChild(list);
+        details.appendChild(list);
+        details.addEventListener('toggle', function () {
+            var popup = layer.getPopup();
+            if (popup && popup.isOpen()) popup.update();
+        });
+        container.appendChild(details);
+        var source = document.createElement('p');
+        source.className = 'indicator-source';
+        source.textContent = 'Consultá la normativa vigente para confirmar su aplicación.';
+        container.appendChild(source);
         return container;
+    }
+
+    function appendUrbanIndicators(container, zone, layer) {
+        var indicator = indicadoresUrbanos[zone.order];
+        var section = document.createElement('details');
+        var heading = document.createElement('summary');
+        heading.textContent = 'Indicadores urbanos';
+        section.className = 'urban-indicators';
+        section.open = true;
+        section.appendChild(heading);
+        section.addEventListener('toggle', function () {
+            var popup = layer.getPopup();
+            if (popup && popup.isOpen()) popup.update();
+        });
+
+        if (!indicator || indicator.sinIndicadores) {
+            var message = document.createElement('p');
+            message.textContent = indicator
+                ? 'No posee indicadores urbanos'
+                : 'No hay indicadores disponibles para esta zona en el visor anterior.';
+            section.appendChild(message);
+        } else {
+            indicator.rangos.forEach(function (range) {
+                var rangeTitle = document.createElement('h5');
+                var normal = document.createElement('p');
+                var mayorUso = document.createElement('p');
+                rangeTitle.textContent = range.superficie;
+                normal.textContent = 'FOS máx.: ' + range.normal[0] + ' · FOT máx.: ' + range.normal[1];
+                mayorUso.textContent = range.mayorUso
+                    ? 'Mayor uso — FOS máx.: ' + range.mayorUso[0] + ' · FOT máx.: ' + range.mayorUso[1]
+                    : 'No posee mayor uso de suelo';
+                section.appendChild(rangeTitle);
+                section.appendChild(normal);
+                section.appendChild(mayorUso);
+            });
+            var heights = document.createElement('p');
+            heights.className = 'indicator-heights';
+            heights.textContent = 'Altura máxima: ' + indicator.altura + '. ' +
+                (indicator.alturaMayorUso ? 'Mayor uso: ' + indicator.alturaMayorUso : 'No posee mayor uso de suelo') + '.';
+            section.appendChild(heights);
+            if (indicator.ordenanza) {
+                var link = document.createElement('a');
+                link.href = 'https://drive.google.com/file/d/16F_9ytsnJd-A6q7GwV9zN5EsN_7XCLMi/view?usp=sharing';
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                link.textContent = 'Ordenanza de mayor uso 7301/22';
+                section.appendChild(link);
+            }
+        }
+        container.appendChild(section);
     }
 
     map.createPane('parcel-zones');
@@ -103,14 +166,43 @@
                 fillOpacity: 1
             },
             onEachFeature: function (feature, layer) {
+                var popupContent;
                 layer.bindPopup(function () {
-                    return createPopup(feature, zone.name);
+                    if (!popupContent) popupContent = createPopup(feature, zone, layer);
+                    return popupContent;
                 }, { maxHeight: 400 });
             }
         });
     }
 
     var list = document.getElementById('layer-list');
+    var toggleAllButton = document.getElementById('toggle-all-layers');
+    var layerActionStatus = document.getElementById('layer-action-status');
+
+    function updateToggleAllButton() {
+        var allActive = zones.every(function (zone) {
+            return zone.checkbox.checked;
+        });
+        toggleAllButton.textContent = allActive ? 'Desactivar todas las zonas' : 'Activar todas las zonas';
+    }
+
+    function setZoneVisible(zone, visible) {
+        if (visible && (!zone.layer || !map.hasLayer(zone.layer))) {
+            if (!zone.layer) zone.layer = createLayer(zone);
+            zone.layer.addTo(map);
+            zones.slice().sort(function (a, b) {
+                return a.order - b.order;
+            }).forEach(function (other) {
+                if (other.order > zone.order && other.layer && map.hasLayer(other.layer)) {
+                    other.layer.bringToFront();
+                }
+            });
+        } else if (!visible && zone.layer && map.hasLayer(zone.layer)) {
+            map.removeLayer(zone.layer);
+        }
+        zone.checkbox.checked = visible;
+    }
+
     zones.forEach(function (zone) {
         var label = document.createElement('label');
         var checkbox = document.createElement('input');
@@ -118,29 +210,58 @@
         var name = document.createElement('span');
         label.className = 'layer-item';
         checkbox.type = 'checkbox';
+        zone.checkbox = checkbox;
         swatch.className = 'layer-swatch';
         swatch.style.backgroundColor = zone.color;
         swatch.setAttribute('aria-hidden', 'true');
         name.textContent = zone.name;
         checkbox.addEventListener('change', function () {
-            if (checkbox.checked) {
-                if (!zone.layer) zone.layer = createLayer(zone);
-                zone.layer.addTo(map);
-                zones.slice().sort(function (a, b) {
-                    return a.order - b.order;
-                }).forEach(function (other) {
-                    if (other.order > zone.order && other.layer && map.hasLayer(other.layer)) {
-                        other.layer.bringToFront();
-                    }
-                });
-            } else if (zone.layer) {
-                map.removeLayer(zone.layer);
-            }
+            setZoneVisible(zone, checkbox.checked);
+            layerActionStatus.textContent = '';
+            updateToggleAllButton();
         });
         label.appendChild(checkbox);
         label.appendChild(swatch);
         label.appendChild(name);
         list.appendChild(label);
+    });
+
+    toggleAllButton.addEventListener('click', function () {
+        var enable = !zones.every(function (zone) { return zone.checkbox.checked; });
+        var orderedZones = zones.slice().sort(function (a, b) { return a.order - b.order; });
+        var index = 0;
+        toggleAllButton.disabled = true;
+        zones.forEach(function (zone) { zone.checkbox.disabled = true; });
+
+        function finish(message) {
+            layerActionStatus.textContent = message;
+            zones.forEach(function (zone) { zone.checkbox.disabled = false; });
+            toggleAllButton.disabled = false;
+            updateToggleAllButton();
+        }
+
+        function updateNextZone() {
+            if (index === orderedZones.length) {
+                finish(enable ? 'Todas las zonas están activadas.' : 'Todas las zonas están desactivadas.');
+                return;
+            }
+            var zone = orderedZones[index];
+            layerActionStatus.textContent = (enable ? 'Activando' : 'Desactivando') + ' zonas: ' +
+                (index + 1) + ' de ' + orderedZones.length + '.';
+            setTimeout(function () {
+                try {
+                    setZoneVisible(zone, enable);
+                } catch (error) {
+                    console.error('No se pudo actualizar la zona ' + zone.name, error);
+                    zone.checkbox.checked = !!zone.layer && map.hasLayer(zone.layer);
+                    finish('No se pudo actualizar la zona ' + zone.name + '. Intentá nuevamente.');
+                    return;
+                }
+                index++;
+                updateNextZone();
+            }, 0);
+        }
+        updateNextZone();
     });
 
     var searchInput = document.getElementById('parcel-search-input');
@@ -175,8 +296,10 @@
             renderer: searchRenderer,
             style: { color: '#da0c81', weight: 4, fillColor: '#da0c81', fillOpacity: 0.3 }
         }).addTo(map);
+        var popupContent;
         selectedParcel.bindPopup(function () {
-            return createPopup(feature, zone.name);
+            if (!popupContent) popupContent = createPopup(feature, zone, selectedParcel);
+            return popupContent;
         }, { maxHeight: 400 });
         map.fitBounds(selectedParcel.getBounds(), { maxZoom: 19, padding: [40, 40] });
         selectedParcel.openPopup();

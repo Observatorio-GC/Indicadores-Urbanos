@@ -48,6 +48,10 @@
                 <button id="panel-close" class="panel-close" type="button" aria-label="Cerrar panel de zonas">×</button>
             </div>
             <p class="panel-help">Seleccioná las zonas que querés visualizar en el mapa.</p>
+            <div class="layer-actions">
+                <button id="toggle-all-layers" type="button">Activar todas las zonas</button>
+                <p id="layer-action-status" role="status" aria-live="polite"></p>
+            </div>
             <div id="layer-list" class="layer-list"></div>
         </section>
     </main>
@@ -68,6 +72,7 @@
     <script src="data/Industrial1_11.js"></script>
     <script src="data/Extensionindustrial_12.js"></script>
     <script src="js/mediciones.js"></script>
+    <script src="js/indicadores-urbanos.js"></script>
     <script src="js/indicadores.js"></script>
 </body>
 </html>

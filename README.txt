@@ -9,8 +9,21 @@ comienzan desactivadas, como en la exportación original de qgis2web; al hacer
 clic en una parcela se muestran sus atributos disponibles. El panel comienza
 abierto en escritorio y cerrado en dispositivos móviles y tabletas (hasta
 1024 px); en estos últimos se abre con el botón "Zonificación".
-El detalle de cada parcela muestra los campos disponibles de sus datos;
-los valores vacíos no se muestran.
+El botón "Activar todas las zonas" permite mostrar todas las capas; cuando
+todas están activas, permite desactivarlas juntas. La carga inicial puede
+demorar por la cantidad de parcelas.
+El popup muestra primero los indicadores en un desplegable abierto inicialmente;
+el desplegable "Ver datos de la parcela" contiene los atributos disponibles,
+sin los campos de nomenclatura de 16 y 20 dígitos. Los valores vacíos no se
+muestran.
+
+El detalle incluye los indicadores por zona y rangos de superficie
+transcriptos del visor anterior (index.htm): FOS, FOT y altura máxima, junto
+con los valores de mayor uso cuando estaban disponibles. Se muestran todos
+los rangos originales sin elegir uno automáticamente; se debe consultar la
+normativa vigente para confirmar la aplicación a cada parcela. Las zonas sin
+información se identifican explícitamente. Los valores se mantienen en
+js/indicadores-urbanos.js.
 
 El buscador superior consulta padrón y nomenclatura, incluyendo zonas que no
 estén activadas. Es posible ingresar una coincidencia parcial de al menos tres
