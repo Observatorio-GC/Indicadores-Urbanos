@@ -153,6 +153,29 @@
     map.createPane('parcel-zones');
     map.getPane('parcel-zones').style.zIndex = 412;
     var zoneRenderer = L.canvas({ pane: 'parcel-zones' });
+    map.createPane('parcel-highlight');
+    map.getPane('parcel-highlight').style.zIndex = 440;
+    map.getPane('parcel-highlight').style.pointerEvents = 'none';
+    var highlightRenderer = L.svg({ pane: 'parcel-highlight' });
+    var highlightedParcel;
+    var highlightedLayer;
+
+    function clearParcelHighlight(event) {
+        if (highlightedLayer !== event.target) return;
+        map.removeLayer(highlightedParcel);
+        highlightedParcel = null;
+        highlightedLayer = null;
+    }
+
+    function highlightParcel(event) {
+        if (highlightedParcel) map.removeLayer(highlightedParcel);
+        highlightedLayer = event.target;
+        highlightedParcel = L.geoJSON(event.target.feature, {
+            renderer: highlightRenderer,
+            interactive: false,
+            style: { color: '#e00000', weight: 4, opacity: 1, fill: false }
+        }).addTo(map);
+    }
 
     function createLayer(zone) {
         return L.geoJSON(zone.data, {
@@ -167,6 +190,8 @@
             },
             onEachFeature: function (feature, layer) {
                 var popupContent;
+                layer.on('popupopen', highlightParcel);
+                layer.on('popupclose remove', clearParcelHighlight);
                 layer.bindPopup(function () {
                     if (!popupContent) popupContent = createPopup(feature, zone, layer);
                     return popupContent;

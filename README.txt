@@ -9,6 +9,8 @@ comienzan desactivadas, como en la exportación original de qgis2web; al hacer
 clic en una parcela se muestran sus atributos disponibles. El panel comienza
 abierto en escritorio y cerrado en dispositivos móviles y tabletas (hasta
 1024 px); en estos últimos se abre con el botón "Zonificación".
+Al abrir una parcela desde una capa se resalta su contorno en rojo; el
+contorno se retira al cerrar el popup o desactivar la capa.
 El botón "Activar todas las zonas" permite mostrar todas las capas; cuando
 todas están activas, permite desactivarlas juntas. La carga inicial puede
 demorar por la cantidad de parcelas.
