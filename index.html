@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Visor de indicadores urbanos y zonificación parcelaria de Godoy Cruz.">
+    <title>Indicadores Urbanos | Observatorio Territorial Godoy Cruz</title>
+    <link rel="icon" type="image/png" href="images/favicon1.png">
+    <link rel="stylesheet" href="css/leaflet.css">
+    <link rel="stylesheet" href="css/leaflet.draw.css">
+    <link rel="stylesheet" href="css/indicadores.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="site-heading">
+            <h1>Observatorio Territorial</h1>
+            <p>Indicadores urbanos · Godoy Cruz</p>
+        </div>
+        <div class="parcel-search" role="search">
+            <label class="sr-only" for="parcel-search-input">Buscar padrón o nomenclatura</label>
+            <input id="parcel-search-input" type="search" placeholder="Buscar padrón o nomenclatura"
+                autocomplete="off" aria-controls="search-results">
+            <label class="sr-only" for="search-zone-filter">Filtrar búsqueda por zona</label>
+            <select id="search-zone-filter">
+                <option value="">Todas las zonas</option>
+            </select>
+            <div id="search-results" class="search-results" aria-live="polite" hidden></div>
+        </div>
+        <img class="municipal-logo" src="images/GC2.png" alt="Municipalidad de Godoy Cruz">
+    </header>
+
+    <main class="map-container">
+        <div id="map" aria-label="Mapa de zonificación parcelaria de Godoy Cruz"></div>
+        <div class="observatory-logo">
+            <img src="images/favicon2.gif" alt="Observatorio Territorial">
+        </div>
+
+        <button id="clear-parcel" class="clear-parcel" type="button" hidden>Quitar parcela buscada</button>
+        <button id="panel-toggle" class="panel-toggle" type="button" aria-controls="layer-panel" aria-expanded="true">
+            Zonificación
+        </button>
+        <section id="layer-panel" class="layer-panel" aria-labelledby="panel-title">
+            <div class="panel-heading">
+                <div>
+                    <h2 id="panel-title">Zonificación</h2>
+                    <p>Parcelario de Godoy Cruz</p>
+                </div>
+                <button id="panel-close" class="panel-close" type="button" aria-label="Cerrar panel de zonas">×</button>
+            </div>
+            <p class="panel-help">Seleccioná las zonas que querés visualizar en el mapa.</p>
+            <div id="layer-list" class="layer-list"></div>
+        </section>
+    </main>
+
+    <script src="js/leaflet.js"></script>
+    <script src="js/leaflet-hash.js"></script>
+    <script src="js/leaflet.draw.js"></script>
+    <script src="data/EjesResidencialesEspeciales_1.js"></script>
+    <script src="data/Residencialr1r2r3r4r5_2.js"></script>
+    <script src="data/ParqueRecreacin_3.js"></script>
+    <script src="data/ResidencialMixta_4.js"></script>
+    <script src="data/ResidencialMixta1_5.js"></script>
+    <script src="data/Comercial_6.js"></script>
+    <script src="data/ComercialMixta_7.js"></script>
+    <script src="data/Residencialr6_8.js"></script>
+    <script src="data/CentroCivico_9.js"></script>
+    <script src="data/Industrial2_10.js"></script>
+    <script src="data/Industrial1_11.js"></script>
+    <script src="data/Extensionindustrial_12.js"></script>
+    <script src="js/mediciones.js"></script>
+    <script src="js/indicadores.js"></script>
+</body>
+</html>

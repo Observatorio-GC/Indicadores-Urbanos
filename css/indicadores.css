@@ -1,0 +1,397 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: Isidora, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+.site-header {
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 65px;
+    padding: 8px 20px;
+    color: #fff;
+    background: #da0c81;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.site-heading h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+.site-heading p {
+    margin: 3px 0 0;
+    font-size: 13px;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+}
+
+.parcel-search {
+    position: relative;
+    display: flex;
+    gap: 6px;
+    width: min(560px, 52%);
+}
+
+.parcel-search input,
+.parcel-search select {
+    min-width: 0;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    color: #333;
+    background: #fff;
+    font-size: 13px;
+}
+
+.parcel-search input {
+    flex: 3;
+}
+
+.parcel-search select {
+    flex: 2;
+    cursor: pointer;
+    text-overflow: ellipsis;
+}
+
+.search-results {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    max-height: min(360px, 55vh);
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+    color: #333;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.search-results[hidden] {
+    display: none;
+}
+
+.search-result {
+    display: block;
+    width: 100%;
+    padding: 9px 12px;
+    border: 0;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+    color: #333;
+    text-align: left;
+    cursor: pointer;
+}
+
+.search-result:hover,
+.search-result:focus {
+    background: #f1f3ff;
+}
+
+.search-result span {
+    display: block;
+    margin-top: 2px;
+    color: #666;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.search-message {
+    margin: 0;
+    padding: 10px 12px;
+    font-size: 12px;
+}
+
+.municipal-logo {
+    width: auto;
+    max-width: 120px;
+    height: 45px;
+    object-fit: contain;
+}
+
+.map-container {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+}
+
+.observatory-logo {
+    position: absolute;
+    z-index: 500;
+    top: 10px;
+    right: 20px;
+    padding: 6px;
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.observatory-logo img {
+    display: block;
+    width: 225px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.clear-parcel {
+    position: absolute;
+    z-index: 500;
+    bottom: 30px;
+    left: 10px;
+    padding: 10px 15px;
+    border: 1px solid #a60961;
+    border-radius: 6px;
+    color: #fff;
+    background: #da0c81;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.clear-parcel:hover {
+    background: #a60961;
+}
+
+.clear-parcel:focus-visible {
+    outline: 3px solid #333;
+    outline-offset: 2px;
+}
+
+.clear-parcel[hidden] {
+    display: none;
+}
+
+.layer-panel {
+    position: absolute;
+    z-index: 500;
+    right: 20px;
+    bottom: 30px;
+    width: 360px;
+    max-width: calc(100% - 40px);
+    max-height: calc(100% - 100px);
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.layer-panel[hidden],
+.panel-toggle[hidden] {
+    display: none;
+}
+
+.panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 15px;
+    color: #fff;
+    background: #667eea;
+}
+
+.panel-heading h2 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.panel-heading p {
+    margin: 3px 0 0;
+    font-size: 12px;
+}
+
+.panel-close {
+    padding: 0 4px;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.panel-help {
+    margin: 14px 15px 8px;
+    color: #666;
+    font-size: 13px;
+}
+
+.layer-list {
+    padding: 0 15px 15px;
+}
+
+.layer-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 32px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.layer-item input {
+    margin: 0;
+    accent-color: #667eea;
+}
+
+.layer-swatch {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #555;
+    border-radius: 2px;
+}
+
+.panel-toggle {
+    position: absolute;
+    z-index: 500;
+    right: 20px;
+    bottom: 30px;
+    padding: 11px 18px;
+    border: 0;
+    border-radius: 6px;
+    color: #fff;
+    background: #667eea;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.leaflet-container {
+    font-family: inherit;
+}
+
+.leaflet-control-layers {
+    max-width: 220px;
+}
+
+.measurement-label {
+    font-family: inherit;
+    font-weight: 600;
+}
+
+.parcel-popup {
+    width: min(260px, calc(100vw - 90px));
+    overflow-wrap: anywhere;
+}
+
+.parcel-popup h3 {
+    margin: 0 0 8px;
+    font-size: 14px;
+}
+
+.parcel-popup dl {
+    margin: 0;
+}
+
+.parcel-popup dt {
+    margin-top: 6px;
+    font-weight: 600;
+}
+
+.parcel-popup dd {
+    margin: 0;
+}
+
+@media (max-width: 1024px) {
+    .site-header {
+        flex-wrap: wrap;
+    }
+
+    .site-heading {
+        flex: 1;
+    }
+
+    .parcel-search {
+        order: 3;
+        width: 100%;
+    }
+
+    .clear-parcel {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 600px) {
+    .site-header {
+        min-height: 60px;
+        padding: 8px 12px;
+    }
+
+    .parcel-search input,
+    .parcel-search select {
+        padding: 10px 8px;
+    }
+
+    .site-heading h1 {
+        font-size: 19px;
+    }
+
+    .site-heading p {
+        font-size: 12px;
+    }
+
+    .municipal-logo {
+        max-width: 90px;
+        height: 38px;
+    }
+
+    .observatory-logo {
+        top: 10px;
+        right: 10px;
+    }
+
+    .observatory-logo img {
+        width: 145px;
+        height: auto;
+    }
+
+    .layer-panel,
+    .panel-toggle {
+        right: 10px;
+        bottom: 28px;
+    }
+
+    .layer-panel {
+        max-width: calc(100% - 20px);
+        max-height: calc(100% - 75px);
+    }
+}
