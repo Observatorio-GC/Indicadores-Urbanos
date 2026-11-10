@@ -197,7 +197,7 @@
                 lineCap: 'butt',
                 lineJoin: 'miter',
                 fillColor: zone.color,
-                fillOpacity: 1
+                fillOpacity: 0.5
             },
             onEachFeature: function (feature, layer) {
                 var popupContent;
@@ -239,7 +239,11 @@
         zone.checkbox.checked = visible;
     }
 
-    zones.forEach(function (zone) {
+    var alphabeticalZones = zones.slice().sort(function (a, b) {
+        return a.name.localeCompare(b.name, 'es');
+    });
+
+    alphabeticalZones.forEach(function (zone) {
         var label = document.createElement('label');
         var checkbox = document.createElement('input');
         var swatch = document.createElement('span');
@@ -306,7 +310,7 @@
     var clearParcelButton = document.getElementById('clear-parcel');
     var searchTimer;
     var selectedParcel;
-    zones.forEach(function (zone) {
+    alphabeticalZones.forEach(function (zone) {
         var option = document.createElement('option');
         option.value = String(zone.order);
         option.textContent = zone.name;
