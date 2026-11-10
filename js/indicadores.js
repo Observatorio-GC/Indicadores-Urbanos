@@ -9,7 +9,7 @@
     }).fitBounds(initialBounds);
 
     new L.Hash(map);
-    map.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a> · <a href="https://qgis.org">QGIS</a> · <a href="https://github.com/qgis2web/qgis2web">qgis2web</a>');
+    map.attributionControl.setPrefix('Secretaría de Ambiente, Obras y Servicios Públicos');
     var baseMaps = {
         'OpenStreetMap': L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 28,
@@ -19,12 +19,12 @@
         'Google Satelital': L.tileLayer('https://mt0.google.com/vt/lyrs=s&hl=es&x={x}&y={y}&z={z}', {
             maxZoom: 28,
             maxNativeZoom: 20,
-            attribution: 'Google'
+            attribution: '&copy; Google'
         }),
         'ESRI Satelital': L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
             maxZoom: 28,
             maxNativeZoom: 20,
-            attribution: 'Tiles &copy; Esri'
+            attribution: '&copy; Esri'
         })
     };
     baseMaps.OpenStreetMap.addTo(map);
@@ -35,6 +35,7 @@
     map.createPane('measurements');
     map.getPane('measurements').style.zIndex = 460;
     initMeasurements(map);
+    initStreetView(map);
 
     var zones = [
         { name: 'Extensión industrial', color: '#7d8b8f', data: json_Extensionindustrial_12, order: 412 },
@@ -95,7 +96,7 @@
         container.appendChild(details);
         var source = document.createElement('p');
         source.className = 'indicator-source';
-        source.textContent = 'Consultá la normativa vigente para confirmar su aplicación.';
+        source.textContent = 'Datos proporcionados por la Dirección de Catastro. Noviembre 2026.';
         container.appendChild(source);
         return container;
     }
@@ -135,8 +136,13 @@
             });
             var heights = document.createElement('p');
             heights.className = 'indicator-heights';
-            heights.textContent = 'Altura máxima: ' + indicator.altura + '. ' +
-                (indicator.alturaMayorUso ? 'Mayor uso: ' + indicator.alturaMayorUso : 'No posee mayor uso de suelo') + '.';
+            var heightLabel = document.createElement('strong');
+            heightLabel.textContent = 'Altura máxima:';
+            heights.appendChild(heightLabel);
+            heights.appendChild(document.createTextNode(' ' + indicator.altura + '.'));
+            heights.appendChild(document.createElement('br'));
+            heights.appendChild(document.createTextNode(
+                (indicator.alturaMayorUso ? 'Mayor uso: ' + indicator.alturaMayorUso : 'No posee mayor uso de suelo') + '.'));
             section.appendChild(heights);
             if (indicator.ordenanza) {
                 var link = document.createElement('a');
@@ -177,6 +183,11 @@
         }).addTo(map);
     }
 
+    function parcelPopupOptions() {
+        var width = Math.min(260, window.innerWidth - 90);
+        return { maxHeight: 400, minWidth: width, maxWidth: width };
+    }
+
     function createLayer(zone) {
         return L.geoJSON(zone.data, {
             renderer: zoneRenderer,
@@ -195,7 +206,7 @@
                 layer.bindPopup(function () {
                     if (!popupContent) popupContent = createPopup(feature, zone, layer);
                     return popupContent;
-                }, { maxHeight: 400 });
+                }, parcelPopupOptions());
             }
         });
     }
@@ -325,7 +336,7 @@
         selectedParcel.bindPopup(function () {
             if (!popupContent) popupContent = createPopup(feature, zone, selectedParcel);
             return popupContent;
-        }, { maxHeight: 400 });
+        }, parcelPopupOptions());
         map.fitBounds(selectedParcel.getBounds(), { maxZoom: 19, padding: [40, 40] });
         selectedParcel.openPopup();
         clearParcelButton.hidden = false;
