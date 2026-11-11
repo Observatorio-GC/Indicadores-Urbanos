@@ -148,9 +148,117 @@ select {
 }
 
 #map {
+    position: relative;
+    z-index: 0;
     width: 100%;
     height: 100%;
     background: #fff;
+}
+
+.height-control {
+    max-width: min(250px, 60vw);
+}
+
+.height-toggle {
+    width: 34px;
+    height: 34px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    background: #fff;
+    color: #333;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.height-toggle[aria-pressed="true"] {
+    color: #fff;
+    background: #da0c81;
+}
+
+#map-3d {
+    position: absolute;
+    inset: 0;
+    z-index: 450;
+    background: #e8e8e8;
+}
+
+#map-3d[hidden] {
+    display: none;
+}
+
+#map-3d-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.height-3d-controls {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    max-width: min(250px, 60vw);
+    padding: 8px;
+    border-radius: 5px;
+    background: #fff;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.35);
+    font-size: 12px;
+}
+
+.height-3d-controls button,
+.height-3d-controls select {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.height-3d-controls button {
+    padding: 7px;
+    border: 0;
+    border-radius: 4px;
+    color: #fff;
+    background: #da0c81;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.height-3d-controls p {
+    margin: 4px 0 0;
+}
+
+#map-3d .maplibregl-ctrl-top-left {
+    top: auto;
+    bottom: 85px;
+}
+
+.parcel-popup-3d .maplibregl-popup-content {
+    width: 100%;
+    max-height: 400px;
+    overflow: auto;
+    padding: 13px 24px 13px 20px;
+    border-radius: 12px;
+    color: #333;
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
+    font: 13px/1.3 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.parcel-popup-3d .maplibregl-popup-close-button {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    color: #757575;
+    font: 16px/24px Tahoma, Verdana, sans-serif;
+}
+
+.parcel-popup-3d .urban-indicators p {
+    margin: 3px 0;
+}
+
+.parcel-popup-3d .urban-indicators .indicator-heights {
+    margin-top: 10px;
+}
+
+.parcel-popup-3d .indicator-source {
+    margin: 12px 0 0;
+    color: #666;
+    font-size: 11px;
 }
 
 .observatory-logo {

@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png" href="images/favicon1.png">
     <link rel="stylesheet" href="css/leaflet.css">
     <link rel="stylesheet" href="css/leaflet.draw.css">
+    <link rel="stylesheet" href="css/maplibre-gl.css">
     <link rel="stylesheet" href="css/indicadores.css">
 </head>
 <body>
@@ -31,6 +32,21 @@
 
     <main class="map-container">
         <div id="map" aria-label="Mapa de zonificación parcelaria de Godoy Cruz"></div>
+        <div id="map-3d" aria-label="Vista inclinada de alturas máximas" hidden>
+            <div id="map-3d-canvas"></div>
+            <div class="height-3d-controls">
+                <button id="height-3d-close" type="button">Volver al mapa 2D</button>
+                <label for="height-base-map">Mapa base</label>
+                <select id="height-base-map">
+                    <option>OpenStreetMap</option>
+                    <option>Google Satelital</option>
+                    <option>ESRI Satelital</option>
+                </select>
+                <p id="height-3d-status" role="status"></p>
+                <p>Para inclinar o girar, arrastrá con el botón derecho o usá dos dedos.</p>
+                <p>Para girar con la brújula, mantené apretado el botón izquierdo sobre ella y arrastrá.</p>
+            </div>
+        </div>
         <div class="observatory-logo">
             <img src="images/favicon2.gif" alt="Observatorio Territorial">
         </div>
@@ -59,6 +75,7 @@
     <script src="js/leaflet.js"></script>
     <script src="js/leaflet-hash.js"></script>
     <script src="js/leaflet.draw.js"></script>
+    <script src="js/maplibre-gl.js"></script>
     <script src="data/EjesResidencialesEspeciales_1.js"></script>
     <script src="data/Residencialr1r2r3r4r5_2.js"></script>
     <script src="data/ParqueRecreacin_3.js"></script>
@@ -73,6 +90,8 @@
     <script src="data/Extensionindustrial_12.js"></script>
     <script src="js/mediciones.js"></script>
     <script src="js/streetview.js"></script>
+    <script src="js/contornos-3d.js"></script>
+    <script src="js/alturas-3d.js"></script>
     <script src="js/indicadores-urbanos.js"></script>
     <script src="js/indicadores.js"></script>
 </body>

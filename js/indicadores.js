@@ -214,6 +214,7 @@
     var list = document.getElementById('layer-list');
     var toggleAllButton = document.getElementById('toggle-all-layers');
     var layerActionStatus = document.getElementById('layer-action-status');
+    var heightView;
 
     function updateToggleAllButton() {
         var allActive = zones.every(function (zone) {
@@ -237,6 +238,7 @@
             map.removeLayer(zone.layer);
         }
         zone.checkbox.checked = visible;
+        if (heightView) heightView.refresh();
     }
 
     var alphabeticalZones = zones.slice().sort(function (a, b) {
@@ -265,6 +267,8 @@
         label.appendChild(name);
         list.appendChild(label);
     });
+
+    heightView = initHeightView(map, zones, baseMaps, createPopup);
 
     toggleAllButton.addEventListener('click', function () {
         var enable = !zones.every(function (zone) { return zone.checkbox.checked; });
@@ -343,6 +347,7 @@
         }, parcelPopupOptions());
         map.fitBounds(selectedParcel.getBounds(), { maxZoom: 19, padding: [40, 40] });
         selectedParcel.openPopup();
+        heightView.showParcel(zone, feature);
         clearParcelButton.hidden = false;
         searchResults.hidden = true;
     }
@@ -354,6 +359,7 @@
             selectedParcel = null;
         }
         clearParcelButton.hidden = true;
+        heightView.clearParcel();
         searchInput.focus();
         searchResults.hidden = true;
     });

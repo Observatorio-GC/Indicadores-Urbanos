@@ -47,3 +47,21 @@ conservaron los colores y el orden de las capas de la exportación original.
 
 Las imágenes institucionales provienen del proyecto principal del Observatorio.
 Los mapas base requieren conexión a internet.
+
+El botón "3D" abre una vista inclinable que representa de manera esquemática
+las alturas máximas del campo numérico Altura (en metros) en las zonas activas.
+No representa edificaciones existentes ni reemplaza la consulta de la
+normativa. Las parcelas sin altura válida se muestran planas. Se puede
+seleccionar una parcela, buscar y cambiar las zonas y el mapa base en 3D.
+Los bordes superiores de cada volumen indican los límites de las parcelas.
+Al seleccionar una parcela con altura se resaltan en rojo las aristas del
+volumen; al cerrar el popup se quita el resaltado de las parcelas seleccionadas
+con un clic. La parcela buscada se quita con su botón correspondiente.
+Si se busca una parcela de una zona desactivada, su volumen se muestra
+individualmente sin activar la zona; si no tiene altura, permanece plana.
+Para inclinar o girar se arrastra con el botón derecho o se usan dos dedos;
+también se puede girar arrastrando la brújula con el botón izquierdo.
+el botón de orientación vuelve al norte sin cambiar la inclinación.
+Al alejarse demasiado se dejan de mostrar las parcelas hasta volver a acercar.
+Para medir o usar Street View, regresar al mapa 2D con el botón correspondiente.
+El modo 3D utiliza la biblioteca local MapLibre GL JS y requiere WebGL.
