@@ -85,11 +85,11 @@
             list.appendChild(row);
         });
         container.appendChild(list);
-        appendUrbanIndicators(container, zone);
         var source = document.createElement('p');
         source.className = 'indicator-source';
         source.textContent = 'Datos proporcionados por la Dirección de Catastro. Noviembre 2026.';
         container.appendChild(source);
+        appendUrbanIndicators(container, zone);
         return container;
     }
 
