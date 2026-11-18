@@ -160,19 +160,19 @@ select {
 }
 
 .height-toggle {
-    width: 34px;
+    width: auto;
     height: 34px;
+    padding: 0 10px;
     border: 2px solid rgba(0, 0, 0, 0.2);
     border-radius: 4px;
-    background: #fff;
-    color: #333;
+    background: #da0c81;
+    color: #fff;
     font-weight: 700;
     cursor: pointer;
 }
 
 .height-toggle[aria-pressed="true"] {
-    color: #fff;
-    background: #da0c81;
+    background: #a60961;
 }
 
 #map-3d {
@@ -226,39 +226,6 @@ select {
 #map-3d .maplibregl-ctrl-top-left {
     top: auto;
     bottom: 85px;
-}
-
-.parcel-popup-3d .maplibregl-popup-content {
-    width: 100%;
-    max-height: 400px;
-    overflow: auto;
-    padding: 13px 24px 13px 20px;
-    border-radius: 12px;
-    color: #333;
-    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
-    font: 13px/1.3 "Helvetica Neue", Arial, Helvetica, sans-serif;
-}
-
-.parcel-popup-3d .maplibregl-popup-close-button {
-    width: 24px;
-    height: 24px;
-    padding: 0;
-    color: #757575;
-    font: 16px/24px Tahoma, Verdana, sans-serif;
-}
-
-.parcel-popup-3d .urban-indicators p {
-    margin: 3px 0;
-}
-
-.parcel-popup-3d .urban-indicators .indicator-heights {
-    margin-top: 10px;
-}
-
-.parcel-popup-3d .indicator-source {
-    margin: 12px 0 0;
-    color: #666;
-    font-size: 11px;
 }
 
 .observatory-logo {
@@ -450,80 +417,126 @@ select {
     font-weight: 600;
 }
 
-.parcel-popup {
-    width: 100%;
+.parcel-info {
+    position: absolute;
+    z-index: 600;
+    top: 10px;
+    bottom: 80px;
+    left: 60px;
+    width: 340px;
+    max-width: calc(100% - 80px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.parcel-info[hidden] {
+    display: none;
+}
+
+#map:not([inert]) ~ .parcel-info {
+    left: 140px;
+}
+
+.parcel-info-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    color: #fff;
+    background: #da0c81;
+}
+
+.parcel-info-heading h2 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.parcel-info-heading p {
+    margin: 4px 0 0;
+    font-size: 13px;
+}
+
+.parcel-info-heading button {
+    border: 0;
+    padding: 0 4px;
+    color: inherit;
+    background: transparent;
+    font-size: 25px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.parcel-info-content {
+    min-height: 0;
+    overflow-y: auto;
+    padding: 16px;
+    font-size: 13px;
+    line-height: 1.45;
     overflow-wrap: anywhere;
 }
 
-.parcel-popup h3 {
+.parcel-info-content h3 {
     margin: 0 0 8px;
+    color: #a60961;
     font-size: 14px;
 }
 
-.parcel-popup dl {
+.parcel-info-list {
     margin: 0;
 }
 
-.parcel-popup dt {
-    margin-top: 6px;
+.parcel-info-list div {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 7px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.parcel-info-list dt {
+    color: #666;
+}
+
+.parcel-info-list dd {
+    margin: 0;
     font-weight: 600;
-}
-
-.parcel-popup dd {
-    margin: 0;
+    text-align: right;
 }
 
 .urban-indicators {
-    margin-top: 10px;
-}
-
-.urban-indicators summary {
-    margin: 0 0 8px;
-    color: #a60961;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.urban-indicators summary:focus-visible {
-    outline: 2px solid #a60961;
-    outline-offset: 2px;
+    margin-top: 20px;
 }
 
 .urban-indicators h5 {
-    margin: 10px 0 3px;
-    font-size: 12px;
+    margin: 12px 0 4px;
+    font-size: 13px;
 }
 
-.leaflet-container .urban-indicators p {
+.urban-indicators p {
     margin: 3px 0;
 }
 
-.leaflet-container .urban-indicators .indicator-heights {
-    margin-top: 10px;
+.urban-indicators .indicator-heights {
+    margin-top: 12px;
 }
 
-.parcel-details {
-    margin-top: 14px;
-    padding-top: 10px;
-    border-top: 1px solid #ddd;
-}
-
-.parcel-details summary {
-    color: #a60961;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.parcel-details summary:focus-visible {
-    outline: 2px solid #a60961;
-    outline-offset: 2px;
-}
-
-.leaflet-container .parcel-popup .indicator-source {
-    margin: 12px 0 0;
+.parcel-info-content .indicator-source {
+    margin: 18px 0 0;
     color: #666;
     font-size: 11px;
+}
+
+@media (min-width: 1025px) {
+    .parcel-info-open #map-3d .height-3d-controls {
+        left: 410px;
+        max-width: 200px;
+    }
 }
 
 .leaflet-bar a.streetview-toggle {
@@ -621,6 +634,24 @@ select {
 
     .clear-parcel {
         font-size: 13px;
+    }
+
+    .parcel-info {
+        top: auto;
+        right: 10px;
+        bottom: 85px;
+        left: auto;
+        width: min(340px, calc(100% - 70px));
+        max-height: 48%;
+    }
+
+    #map:not([inert]) ~ .parcel-info {
+        left: 140px;
+        width: auto;
+    }
+
+    #map-3d:not([hidden]) ~ .parcel-info {
+        max-height: min(48%, max(90px, calc(100% - 350px)));
     }
 }
 

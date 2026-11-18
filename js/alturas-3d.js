@@ -1,4 +1,4 @@
-function initHeightView(map, zones, baseMaps, createPopup) {
+function initHeightView(map, zones, baseMaps, showParcelInfo, closeParcelInfoIf) {
     'use strict';
 
     var container = document.getElementById('map-3d');
@@ -10,7 +10,6 @@ function initHeightView(map, zones, baseMaps, createPopup) {
     var outlineError = false;
     var ready = false;
     var active = false;
-    var popup;
     var pendingParcel;
     var clickedZone;
     var selectedFeature;
@@ -145,6 +144,7 @@ function initHeightView(map, zones, baseMaps, createPopup) {
     }
 
     function clearSelection() {
+        closeParcelInfoIf(selectedFeature, selectedIsSearch ? 'search' : '3d');
         clickedZone = null;
         selectedZone = null;
         selectedFeature = null;
@@ -152,33 +152,10 @@ function initHeightView(map, zones, baseMaps, createPopup) {
         if (!ready) return;
         view.getSource('selected').setData(emptyCollection());
         updateSelectedOutline();
-        if (popup) popup.remove();
     }
 
-    function showPopup(zone, feature, point, isSearch) {
-        if (popup) popup.remove();
-        popup = new maplibregl.Popup({ maxWidth: Math.min(300, window.innerWidth - 40) + 'px',
-            className: 'parcel-popup-3d' }).setLngLat(point);
-        var currentPopup = popup;
-        popup.on('close', function () {
-            if (popup === currentPopup) {
-                popup = null;
-                if (!isSearch) {
-                    clickedZone = null;
-                    selectedZone = null;
-                    selectedFeature = null;
-                    selectedIsSearch = false;
-                    view.getSource('selected').setData(emptyCollection());
-                    updateSelectedOutline();
-                }
-            }
-        });
-        var adapter = {
-            getPopup: function () {
-                return { isOpen: function () { return currentPopup.isOpen(); }, update: function () {} };
-            }
-        };
-        popup.setDOMContent(createPopup(feature, zone, adapter)).addTo(view);
+    function showInfo(zone, feature, isSearch) {
+        showParcelInfo(feature, zone, isSearch ? 'search' : '3d', isSearch ? null : clearSelection);
     }
 
     function showParcel(zone, feature) {
@@ -196,7 +173,7 @@ function initHeightView(map, zones, baseMaps, createPopup) {
         view.fitBounds([
             [bounds.getWest(), bounds.getSouth()], [bounds.getEast(), bounds.getNorth()]
         ], { maxZoom: 18, padding: 80 });
-        showPopup(zone, feature, [bounds.getCenter().lng, bounds.getCenter().lat], true);
+        showInfo(zone, feature, true);
         setSelected(zone, feature, true);
     }
 
@@ -296,7 +273,7 @@ function initHeightView(map, zones, baseMaps, createPopup) {
             var hits = view.queryRenderedFeatures(event.point, { layers: ['height-parcels', 'flat-parcels', 'searched-height'] });
             if (!hits.length) return;
             if (hits[0].layer.id === 'searched-height' && searchedFeature) {
-                showPopup(searchedZone, searchedFeature, event.lngLat, true);
+                showInfo(searchedZone, searchedFeature, true);
                 clickedZone = null;
                 setSelected(searchedZone, searchedFeature, true);
                 return;
@@ -304,7 +281,7 @@ function initHeightView(map, zones, baseMaps, createPopup) {
             var properties = hits[0].properties;
             var zone = zones.find(function (item) { return item.order === properties.zone; });
             if (!zone || !zone.data.features[properties.index]) return;
-            showPopup(zone, zone.data.features[properties.index], event.lngLat);
+            showInfo(zone, zone.data.features[properties.index], false);
             clickedZone = zone;
             setSelected(zone, zone.data.features[properties.index]);
         });
@@ -313,6 +290,7 @@ function initHeightView(map, zones, baseMaps, createPopup) {
     function close() {
         if (!active) return;
         var center = view.getCenter();
+        if (!selectedIsSearch) clearSelection();
         active = false;
         view.stop();
         pendingParcel = null;
@@ -331,9 +309,9 @@ function initHeightView(map, zones, baseMaps, createPopup) {
             var control = L.DomUtil.create('div', 'height-control leaflet-control');
             button = L.DomUtil.create('button', 'height-toggle', control);
             button.type = 'button';
-            button.textContent = '3D';
+            button.textContent = 'Parcelario 3D';
             button.title = 'Ver alturas máximas en 3D';
-            button.setAttribute('aria-label', 'Ver alturas máximas en 3D');
+            button.setAttribute('aria-label', 'Parcelario 3D: ver alturas máximas');
             button.setAttribute('aria-pressed', 'false');
             L.DomEvent.disableClickPropagation(control);
             L.DomEvent.on(button, 'click', function () {

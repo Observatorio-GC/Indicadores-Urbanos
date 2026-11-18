@@ -51,6 +51,17 @@
             <img src="images/favicon2.gif" alt="Observatorio Territorial">
         </div>
 
+        <section id="parcel-info" class="parcel-info" aria-labelledby="parcel-info-title" hidden>
+            <div class="parcel-info-heading">
+                <div>
+                    <h2 id="parcel-info-title">Información de la parcela</h2>
+                    <p id="parcel-info-zone"></p>
+                </div>
+                <button id="parcel-info-close" type="button" aria-label="Cerrar información de la parcela">×</button>
+            </div>
+            <div id="parcel-info-content" class="parcel-info-content"></div>
+        </section>
+
         <button id="clear-parcel" class="clear-parcel" type="button" hidden>Quitar parcela buscada</button>
         <button id="panel-toggle" class="panel-toggle" type="button" aria-controls="layer-panel" aria-expanded="true">
             Zonificación

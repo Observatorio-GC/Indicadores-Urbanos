@@ -10,14 +10,14 @@ clic en una parcela se muestran sus atributos disponibles. El panel comienza
 abierto en escritorio y cerrado en dispositivos móviles y tabletas (hasta
 1024 px); en estos últimos se abre con el botón "Zonificación".
 Al abrir una parcela desde una capa se resalta su contorno en rojo; el
-contorno se retira al cerrar el popup o desactivar la capa.
+contorno se retira al cerrar la ventana de información o desactivar la capa.
 El botón "Activar todas las zonas" permite mostrar todas las capas; cuando
 todas están activas, permite desactivarlas juntas. La carga inicial puede
 demorar por la cantidad de parcelas.
-El popup muestra primero los indicadores en un desplegable abierto inicialmente;
-el desplegable "Ver datos de la parcela" contiene los atributos disponibles,
-sin los campos de nomenclatura de 16 y 20 dígitos. Los valores vacíos no se
-muestran.
+Una ventana lateral muestra los atributos disponibles y los indicadores de
+la parcela tanto en 2D como en 3D. No incluye el campo Altura utilizado para
+la vista 3D ni los campos de nomenclatura de 16 y 20 dígitos; tampoco muestra
+valores vacíos.
 
 El detalle incluye los indicadores por zona y rangos de superficie
 transcriptos del visor anterior (index.htm): FOS, FOT y altura máxima, junto
@@ -48,14 +48,14 @@ conservaron los colores y el orden de las capas de la exportación original.
 Las imágenes institucionales provienen del proyecto principal del Observatorio.
 Los mapas base requieren conexión a internet.
 
-El botón "3D" abre una vista inclinable que representa de manera esquemática
+El botón "Parcelario 3D" abre una vista inclinable que representa de manera esquemática
 las alturas máximas del campo numérico Altura (en metros) en las zonas activas.
 No representa edificaciones existentes ni reemplaza la consulta de la
 normativa. Las parcelas sin altura válida se muestran planas. Se puede
 seleccionar una parcela, buscar y cambiar las zonas y el mapa base en 3D.
 Los bordes superiores de cada volumen indican los límites de las parcelas.
 Al seleccionar una parcela con altura se resaltan en rojo las aristas del
-volumen; al cerrar el popup se quita el resaltado de las parcelas seleccionadas
+volumen; al cerrar la ventana se quita el resaltado de las parcelas seleccionadas
 con un clic. La parcela buscada se quita con su botón correspondiente.
 Si se busca una parcela de una zona desactivada, su volumen se muestra
 individualmente sin activar la zona; si no tiene altura, permanece plana.

@@ -53,11 +53,10 @@
     ];
 
     var fields = [
+        { key: 'padron', label: 'Padrón' },
         { key: 'nomenc21', label: 'Nomenclatura' },
         { key: 'barrio', label: 'Barrio' },
         { key: 'sup', label: 'Superficie m²' },
-        { key: 'padron', label: 'Padrón' },
-        { key: 'Altura', label: 'Altura' },
         { key: 'Tipo', label: 'Tipo' },
         { key: 'Zonific_1', label: 'Zonificación' },
         { key: 'id', label: 'ID' },
@@ -65,19 +64,14 @@
         { key: 'coor_y', label: 'Coordenada Y' }
     ];
 
-    function createPopup(feature, zone, layer) {
+    function createParcelInfo(feature, zone) {
         var container = document.createElement('div');
         var heading = document.createElement('h3');
-        var details = document.createElement('details');
-        var summary = document.createElement('summary');
         var list = document.createElement('dl');
-        container.className = 'parcel-popup';
-        heading.textContent = zone.name;
+        container.className = 'parcel-info-details';
+        heading.textContent = 'Datos de la parcela';
         container.appendChild(heading);
-        appendUrbanIndicators(container, zone, layer);
-        details.className = 'parcel-details';
-        summary.textContent = 'Ver datos de la parcela';
-        details.appendChild(summary);
+        list.className = 'parcel-info-list';
         fields.forEach(function (field) {
             var value = feature.properties && feature.properties[field.key];
             if (value === null || value === undefined || value === '') return;
@@ -85,15 +79,13 @@
             var description = document.createElement('dd');
             term.textContent = field.label;
             description.textContent = String(value);
-            list.appendChild(term);
-            list.appendChild(description);
+            var row = document.createElement('div');
+            row.appendChild(term);
+            row.appendChild(description);
+            list.appendChild(row);
         });
-        details.appendChild(list);
-        details.addEventListener('toggle', function () {
-            var popup = layer.getPopup();
-            if (popup && popup.isOpen()) popup.update();
-        });
-        container.appendChild(details);
+        container.appendChild(list);
+        appendUrbanIndicators(container, zone);
         var source = document.createElement('p');
         source.className = 'indicator-source';
         source.textContent = 'Datos proporcionados por la Dirección de Catastro. Noviembre 2026.';
@@ -101,18 +93,13 @@
         return container;
     }
 
-    function appendUrbanIndicators(container, zone, layer) {
+    function appendUrbanIndicators(container, zone) {
         var indicator = indicadoresUrbanos[zone.order];
-        var section = document.createElement('details');
-        var heading = document.createElement('summary');
+        var section = document.createElement('section');
+        var heading = document.createElement('h3');
         heading.textContent = 'Indicadores urbanos';
         section.className = 'urban-indicators';
-        section.open = true;
         section.appendChild(heading);
-        section.addEventListener('toggle', function () {
-            var popup = layer.getPopup();
-            if (popup && popup.isOpen()) popup.update();
-        });
 
         if (!indicator || indicator.sinIndicadores) {
             var message = document.createElement('p');
@@ -156,6 +143,35 @@
         container.appendChild(section);
     }
 
+    var infoPanel = document.getElementById('parcel-info');
+    var infoContent = document.getElementById('parcel-info-content');
+    var infoZone = document.getElementById('parcel-info-zone');
+    var currentInfo;
+
+    function closeParcelInfo() {
+        var previous = currentInfo;
+        currentInfo = null;
+        infoPanel.hidden = true;
+        infoPanel.parentElement.classList.remove('parcel-info-open');
+        if (previous && previous.onClose) previous.onClose();
+    }
+
+    function showParcelInfo(feature, zone, kind, onClose) {
+        closeParcelInfo();
+        currentInfo = { feature: feature, kind: kind, onClose: onClose };
+        infoZone.textContent = zone.name;
+        infoContent.replaceChildren(createParcelInfo(feature, zone));
+        infoContent.scrollTop = 0;
+        infoPanel.hidden = false;
+        infoPanel.parentElement.classList.add('parcel-info-open');
+    }
+
+    function closeParcelInfoIf(feature, kind) {
+        if (currentInfo && currentInfo.feature === feature && currentInfo.kind === kind) closeParcelInfo();
+    }
+
+    document.getElementById('parcel-info-close').addEventListener('click', closeParcelInfo);
+
     map.createPane('parcel-zones');
     map.getPane('parcel-zones').style.zIndex = 412;
     var zoneRenderer = L.canvas({ pane: 'parcel-zones' });
@@ -183,11 +199,6 @@
         }).addTo(map);
     }
 
-    function parcelPopupOptions() {
-        var width = Math.min(260, window.innerWidth - 90);
-        return { maxHeight: 400, minWidth: width, maxWidth: width };
-    }
-
     function createLayer(zone) {
         return L.geoJSON(zone.data, {
             renderer: zoneRenderer,
@@ -200,13 +211,14 @@
                 fillOpacity: 0.5
             },
             onEachFeature: function (feature, layer) {
-                var popupContent;
-                layer.on('popupopen', highlightParcel);
-                layer.on('popupclose remove', clearParcelHighlight);
-                layer.bindPopup(function () {
-                    if (!popupContent) popupContent = createPopup(feature, zone, layer);
-                    return popupContent;
-                }, parcelPopupOptions());
+                layer.on('click', function (event) {
+                    showParcelInfo(feature, zone, '2d', function () { clearParcelHighlight({ target: layer }); });
+                    highlightParcel(event);
+                });
+                layer.on('remove', function () {
+                    if (highlightedLayer === layer) closeParcelInfoIf(feature, '2d');
+                    clearParcelHighlight({ target: layer });
+                });
             }
         });
     }
@@ -268,7 +280,7 @@
         list.appendChild(label);
     });
 
-    heightView = initHeightView(map, zones, baseMaps, createPopup);
+    heightView = initHeightView(map, zones, baseMaps, showParcelInfo, closeParcelInfoIf);
 
     toggleAllButton.addEventListener('click', function () {
         var enable = !zones.every(function (zone) { return zone.checkbox.checked; });
@@ -314,6 +326,7 @@
     var clearParcelButton = document.getElementById('clear-parcel');
     var searchTimer;
     var selectedParcel;
+    var searchedParcelFeature;
     alphabeticalZones.forEach(function (zone) {
         var option = document.createElement('option');
         option.value = String(zone.order);
@@ -333,20 +346,16 @@
 
     function showParcel(zone, feature) {
         if (selectedParcel) {
-            selectedParcel.closePopup();
             map.removeLayer(selectedParcel);
         }
         selectedParcel = L.geoJSON(feature, {
             renderer: searchRenderer,
             style: { color: '#da0c81', weight: 4, fillColor: '#da0c81', fillOpacity: 0.3 }
         }).addTo(map);
-        var popupContent;
-        selectedParcel.bindPopup(function () {
-            if (!popupContent) popupContent = createPopup(feature, zone, selectedParcel);
-            return popupContent;
-        }, parcelPopupOptions());
+        searchedParcelFeature = feature;
+        selectedParcel.on('click', function () { showParcelInfo(feature, zone, 'search'); });
         map.fitBounds(selectedParcel.getBounds(), { maxZoom: 19, padding: [40, 40] });
-        selectedParcel.openPopup();
+        showParcelInfo(feature, zone, 'search');
         heightView.showParcel(zone, feature);
         clearParcelButton.hidden = false;
         searchResults.hidden = true;
@@ -354,9 +363,10 @@
 
     clearParcelButton.addEventListener('click', function () {
         if (selectedParcel) {
-            selectedParcel.closePopup();
+            closeParcelInfoIf(searchedParcelFeature, 'search');
             map.removeLayer(selectedParcel);
             selectedParcel = null;
+            searchedParcelFeature = null;
         }
         clearParcelButton.hidden = true;
         heightView.clearParcel();
