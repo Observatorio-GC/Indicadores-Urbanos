@@ -48,92 +48,6 @@ select {
     font-size: 13px;
 }
 
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-}
-
-.parcel-search {
-    position: relative;
-    display: flex;
-    gap: 6px;
-    width: min(560px, 52%);
-}
-
-.parcel-search input,
-.parcel-search select {
-    min-width: 0;
-    padding: 10px 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    color: #333;
-    background: #fff;
-    font-size: 13px;
-}
-
-.parcel-search input {
-    flex: 3;
-}
-
-.parcel-search select {
-    flex: 2;
-    cursor: pointer;
-    text-overflow: ellipsis;
-}
-
-.search-results {
-    position: absolute;
-    top: calc(100% + 4px);
-    left: 0;
-    right: 0;
-    max-height: min(360px, 55vh);
-    overflow-y: auto;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    background: #fff;
-    color: #333;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.search-results[hidden] {
-    display: none;
-}
-
-.search-result {
-    display: block;
-    width: 100%;
-    padding: 9px 12px;
-    border: 0;
-    border-bottom: 1px solid #eee;
-    background: #fff;
-    color: #333;
-    text-align: left;
-    cursor: pointer;
-}
-
-.search-result:hover,
-.search-result:focus {
-    background: #f1f3ff;
-}
-
-.search-result span {
-    display: block;
-    margin-top: 2px;
-    color: #666;
-    font-size: 12px;
-    overflow-wrap: anywhere;
-}
-
-.search-message {
-    margin: 0;
-    padding: 10px 12px;
-    font-size: 12px;
-}
-
 .municipal-logo {
     width: auto;
     max-width: 120px;
@@ -244,35 +158,6 @@ select {
     width: 225px;
     height: 50px;
     object-fit: contain;
-}
-
-.clear-parcel {
-    position: absolute;
-    z-index: 500;
-    bottom: 30px;
-    left: 10px;
-    padding: 10px 15px;
-    border: 1px solid #a60961;
-    border-radius: 6px;
-    color: #fff;
-    background: #da0c81;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.clear-parcel:hover {
-    background: #a60961;
-}
-
-.clear-parcel:focus-visible {
-    outline: 3px solid #333;
-    outline-offset: 2px;
-}
-
-.clear-parcel[hidden] {
-    display: none;
 }
 
 .layer-panel {
@@ -627,15 +512,6 @@ select {
         flex: 1;
     }
 
-    .parcel-search {
-        order: 3;
-        width: 100%;
-    }
-
-    .clear-parcel {
-        font-size: 13px;
-    }
-
     .parcel-info {
         top: auto;
         right: 10px;
@@ -659,11 +535,6 @@ select {
     .site-header {
         min-height: 60px;
         padding: 8px 12px;
-    }
-
-    .parcel-search input,
-    .parcel-search select {
-        padding: 10px 8px;
     }
 
     .site-heading h1 {

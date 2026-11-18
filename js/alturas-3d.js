@@ -10,13 +10,9 @@ function initHeightView(map, zones, baseMaps, showParcelInfo, closeParcelInfoIf)
     var outlineError = false;
     var ready = false;
     var active = false;
-    var pendingParcel;
     var clickedZone;
     var selectedFeature;
     var selectedZone;
-    var selectedIsSearch = false;
-    var searchedFeature;
-    var searchedZone;
     var sources = {
         'OpenStreetMap': {
             tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
@@ -94,10 +90,9 @@ function initHeightView(map, zones, baseMaps, showParcelInfo, closeParcelInfoIf)
             });
         }
         view.getSource('parcels').setData({ type: 'FeatureCollection', features: features });
-        updateSearchVolume();
         if (outlines) outlines.setFeatures(features);
         updateSelectedOutline();
-        if (!visible.length && !searchedFeature) {
+        if (!visible.length) {
             status.textContent = 'Activá una zona para ver sus alturas.';
         } else if (view.getZoom() < 14) {
             status.textContent = 'Acercá el mapa para ver las parcelas y sus alturas.';
@@ -117,75 +112,25 @@ function initHeightView(map, zones, baseMaps, showParcelInfo, closeParcelInfoIf)
     function updateSelectedOutline() {
         if (!outlines) return;
         var height = parcelHeight(selectedFeature);
-        if (!selectedZone || (!selectedIsSearch && !selectedZone.checkbox.checked)) height = 0;
+        if (!selectedZone || !selectedZone.checkbox.checked) height = 0;
         outlines.setSelected(selectedFeature, height);
     }
 
-    function updateSearchVolume() {
-        if (!ready) return;
-        var source = view.getSource('searched-volume');
-        if (!searchedFeature || searchedZone.checkbox.checked || !parcelHeight(searchedFeature)) {
-            source.setData(emptyCollection());
-            return;
-        }
-        source.setData({
-            type: 'Feature',
-            properties: { height: parcelHeight(searchedFeature), color: searchedZone.color },
-            geometry: searchedFeature.geometry
-        });
-    }
-
-    function setSelected(zone, feature, isSearch) {
+    function setSelected(zone, feature) {
         selectedZone = zone;
         selectedFeature = feature;
-        selectedIsSearch = !!isSearch;
         view.getSource('selected').setData(feature);
         updateSelectedOutline();
     }
 
     function clearSelection() {
-        closeParcelInfoIf(selectedFeature, selectedIsSearch ? 'search' : '3d');
+        closeParcelInfoIf(selectedFeature, '3d');
         clickedZone = null;
         selectedZone = null;
         selectedFeature = null;
-        selectedIsSearch = false;
         if (!ready) return;
         view.getSource('selected').setData(emptyCollection());
         updateSelectedOutline();
-    }
-
-    function showInfo(zone, feature, isSearch) {
-        showParcelInfo(feature, zone, isSearch ? 'search' : '3d', isSearch ? null : clearSelection);
-    }
-
-    function showParcel(zone, feature) {
-        searchedZone = zone;
-        searchedFeature = feature;
-        if (!active) return;
-        if (!ready) {
-            pendingParcel = { zone: zone, feature: feature };
-            return;
-        }
-        clickedZone = null;
-        updateSearchVolume();
-        var bounds = L.geoJSON(feature).getBounds();
-        if (!bounds.isValid()) return;
-        view.fitBounds([
-            [bounds.getWest(), bounds.getSouth()], [bounds.getEast(), bounds.getNorth()]
-        ], { maxZoom: 18, padding: 80 });
-        showInfo(zone, feature, true);
-        setSelected(zone, feature, true);
-    }
-
-    function clearParcel() {
-        pendingParcel = null;
-        searchedFeature = null;
-        searchedZone = null;
-        if (!ready) return;
-        updateSearchVolume();
-        if (selectedIsSearch) {
-            clearSelection();
-        }
     }
 
     function createView() {
@@ -211,7 +156,6 @@ function initHeightView(map, zones, baseMaps, showParcelInfo, closeParcelInfoIf)
         });
         style.sources.parcels = { type: 'geojson', data: emptyCollection(), maxzoom: 22, buffer: 256, tolerance: 0 };
         style.sources.selected = { type: 'geojson', data: emptyCollection() };
-        style.sources['searched-volume'] = { type: 'geojson', data: emptyCollection(), maxzoom: 22, tolerance: 0 };
         style.layers.push(
             {
                 id: 'flat-parcels', type: 'fill', source: 'parcels',
@@ -221,10 +165,6 @@ function initHeightView(map, zones, baseMaps, showParcelInfo, closeParcelInfoIf)
             {
                 id: 'height-parcels', type: 'fill-extrusion', source: 'parcels',
                 filter: ['>', ['get', 'height'], 0],
-                paint: { 'fill-extrusion-color': ['get', 'color'], 'fill-extrusion-height': ['get', 'height'], 'fill-extrusion-opacity': 0.9 }
-            },
-            {
-                id: 'searched-height', type: 'fill-extrusion', source: 'searched-volume',
                 paint: { 'fill-extrusion-color': ['get', 'color'], 'fill-extrusion-height': ['get', 'height'], 'fill-extrusion-opacity': 0.9 }
             },
             {
@@ -258,11 +198,6 @@ function initHeightView(map, zones, baseMaps, showParcelInfo, closeParcelInfoIf)
             ready = true;
             selectBase(baseSelect.value);
             refresh();
-            if (pendingParcel) {
-                var parcel = pendingParcel;
-                pendingParcel = null;
-                showParcel(parcel.zone, parcel.feature);
-            }
         });
         view.on('moveend', refresh);
         view.on('error', function (event) {
@@ -270,18 +205,12 @@ function initHeightView(map, zones, baseMaps, showParcelInfo, closeParcelInfoIf)
             status.textContent = 'No se pudo cargar parte de la vista 3D. Revisá la conexión o volvé al mapa 2D.';
         });
         view.on('click', function (event) {
-            var hits = view.queryRenderedFeatures(event.point, { layers: ['height-parcels', 'flat-parcels', 'searched-height'] });
+            var hits = view.queryRenderedFeatures(event.point, { layers: ['height-parcels', 'flat-parcels'] });
             if (!hits.length) return;
-            if (hits[0].layer.id === 'searched-height' && searchedFeature) {
-                showInfo(searchedZone, searchedFeature, true);
-                clickedZone = null;
-                setSelected(searchedZone, searchedFeature, true);
-                return;
-            }
             var properties = hits[0].properties;
             var zone = zones.find(function (item) { return item.order === properties.zone; });
             if (!zone || !zone.data.features[properties.index]) return;
-            showInfo(zone, zone.data.features[properties.index], false);
+            showParcelInfo(zone.data.features[properties.index], zone, '3d', clearSelection);
             clickedZone = zone;
             setSelected(zone, zone.data.features[properties.index]);
         });
@@ -290,10 +219,9 @@ function initHeightView(map, zones, baseMaps, showParcelInfo, closeParcelInfoIf)
     function close() {
         if (!active) return;
         var center = view.getCenter();
-        if (!selectedIsSearch) clearSelection();
+        clearSelection();
         active = false;
         view.stop();
-        pendingParcel = null;
         container.hidden = true;
         map.getContainer().removeAttribute('inert');
         map.getContainer().removeAttribute('aria-hidden');
@@ -348,9 +276,7 @@ function initHeightView(map, zones, baseMaps, showParcelInfo, closeParcelInfoIf)
                     view.resize();
                     selectBase(baseSelect.value);
                     refresh();
-                    if (searchedFeature) showParcel(searchedZone, searchedFeature);
                 }
-                if (!ready && searchedFeature) pendingParcel = { zone: searchedZone, feature: searchedFeature };
             });
             return control;
         }
@@ -365,5 +291,5 @@ function initHeightView(map, zones, baseMaps, showParcelInfo, closeParcelInfoIf)
         selectBase(baseSelect.value);
     });
     map.addControl(new HeightControl());
-    return { refresh: refresh, showParcel: showParcel, clearParcel: clearParcel };
+    return { refresh: refresh };
 }
