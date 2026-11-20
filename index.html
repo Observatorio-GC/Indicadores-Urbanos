@@ -17,6 +17,16 @@
             <h1>Observatorio Territorial</h1>
             <p>Indicadores urbanos · Godoy Cruz</p>
         </div>
+        <div class="parcel-search" role="search">
+            <label class="sr-only" for="parcel-search-input">Buscar padrón o nomenclatura</label>
+            <input id="parcel-search-input" type="search" placeholder="Buscar padrón o nomenclatura"
+                autocomplete="off" aria-controls="search-results">
+            <label class="sr-only" for="search-zone-filter">Filtrar búsqueda por zona</label>
+            <select id="search-zone-filter">
+                <option value="">Todas las zonas</option>
+            </select>
+            <div id="search-results" class="search-results" aria-live="polite" hidden></div>
+        </div>
         <img class="municipal-logo" src="images/GC2.png" alt="Municipalidad de Godoy Cruz">
     </header>
 
@@ -52,6 +62,7 @@
             <div id="parcel-info-content" class="parcel-info-content"></div>
         </section>
 
+        <button id="clear-parcel" class="clear-parcel" type="button" hidden>Quitar parcela buscada</button>
         <button id="panel-toggle" class="panel-toggle" type="button" aria-controls="layer-panel" aria-expanded="true">
             Zonificación
         </button>

@@ -16,8 +16,8 @@ todas están activas, permite desactivarlas juntas. La carga inicial puede
 demorar por la cantidad de parcelas.
 Una ventana lateral muestra los atributos disponibles y los indicadores de
 la parcela tanto en 2D como en 3D. No incluye el campo Altura utilizado para
-la vista 3D ni muestra valores vacíos. Los archivos públicos de parcelas no
-contienen padrón ni nomenclatura.
+la vista 3D ni los campos de nomenclatura de 16 y 20 dígitos; tampoco muestra
+valores vacíos.
 
 El detalle incluye los indicadores por zona y rangos de superficie
 transcriptos del visor anterior (index.htm): FOS, FOT y altura máxima, junto
@@ -27,7 +27,14 @@ normativa vigente para confirmar la aplicación a cada parcela. Las zonas sin
 información se identifican explícitamente. Los valores se mantienen en
 js/indicadores-urbanos.js.
 
-La superficie de las parcelas se presenta en m².
+El buscador superior consulta padrón y nomenclatura, incluyendo zonas que no
+estén activadas. Es posible ingresar una coincidencia parcial de al menos tres
+dígitos o el número completo; seleccionar un resultado acerca y resalta la
+parcela. La lista muestra hasta 20 resultados y prioriza coincidencias exactas.
+El selector junto al buscador permite buscar en todas las zonas o limitar la
+búsqueda a una zona, independientemente de las capas visibles en el mapa.
+El botón "Quitar parcela buscada" retira el resaltado sin modificar los datos
+ni las zonas activas. La superficie de las parcelas se presenta en m².
 
 Debajo del zoom se pueden cambiar los mapas base y medir líneas o áreas.
 Las mediciones pueden editarse o eliminarse con las herramientas del mapa;
@@ -45,11 +52,13 @@ El botón "Parcelario 3D" abre una vista inclinable que representa de manera esq
 las alturas máximas del campo numérico Altura (en metros) en las zonas activas.
 No representa edificaciones existentes ni reemplaza la consulta de la
 normativa. Las parcelas sin altura válida se muestran planas. Se puede
-seleccionar una parcela y cambiar las zonas y el mapa base en 3D.
+seleccionar una parcela, buscar y cambiar las zonas y el mapa base en 3D.
 Los bordes superiores de cada volumen indican los límites de las parcelas.
 Al seleccionar una parcela con altura se resaltan en rojo las aristas del
 volumen; al cerrar la ventana se quita el resaltado de las parcelas seleccionadas
-con un clic.
+con un clic. La parcela buscada se quita con su botón correspondiente.
+Si se busca una parcela de una zona desactivada, su volumen se muestra
+individualmente sin activar la zona; si no tiene altura, permanece plana.
 Para inclinar o girar se arrastra con el botón derecho o se usan dos dedos;
 también se puede girar arrastrando la brújula con el botón izquierdo.
 el botón de orientación vuelve al norte sin cambiar la inclinación.
